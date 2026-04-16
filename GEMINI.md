@@ -227,6 +227,7 @@ Agent sử dụng workflows trong `.agent/workflows/` qua slash commands:
 | Workflow                                  | Mô tả                                                     |
 | ----------------------------------------- | ----------------------------------------------------------- |
 | `/generate_requirements_from_website`   | Sinh requirements từ website/module                        |
+| `/analyze_requirement_document`         | Phân tích requirement document (Jira/.doc) — sinh tài liệu phân tích, KHÔNG sinh TC |
 | `/generate_manual_testcases_rbt`        | Sinh manual test cases theo AI-RBT 6 bước (FULL RBT mode) |
 | `/generate_testcases_from_requirements` | Sinh test cases nhanh từ requirements (QUICK mode)         |
 | `/generate_automation_from_testcases`   | Chuyển manual test cases → automation scripts             |

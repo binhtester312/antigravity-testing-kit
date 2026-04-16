@@ -234,6 +234,24 @@ Triggers when user asks:
 
 ---
 
+### Analyze requirement document
+
+> **Delegate:** Tác vụ này sử dụng skill **`requirements_analyzer`** để phân tích requirement documents.
+
+Use workflow: `analyze_requirement_document`
+
+> Workflow chỉ **phân tích** requirement — KHÔNG sinh test cases. Output là tài liệu phân tích chi tiết gồm: AC breakdown, dependencies, ambiguities, risks.
+
+Triggers when user asks:
+
+- phân tích requirement document
+- review yêu cầu / analyze this ticket
+- phân tích Jira ticket / requirement
+- tìm điểm mơ hồ trong requirement
+- analyze requirement / review requirement document
+
+---
+
 ### Fetch requirements from Jira
 
 Use workflow: `fetch_jira_requirements`
