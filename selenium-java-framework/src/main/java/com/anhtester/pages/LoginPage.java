@@ -23,7 +23,7 @@ public class LoginPage extends BasePage {
     @FindBy(id = "password")
     private WebElement passwordInput;
 
-    @FindBy(css = "input[name='remember_me']")
+    @FindBy(css = "#remember, input[name='remember'], input[name='remember_me']")
     private WebElement rememberMeCheckbox;
 
     @FindBy(css = "input[type='submit'], button[type='submit']")

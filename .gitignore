@@ -106,3 +106,8 @@ service_account.json
 service-account.json
 .claude/
 CLAUDE.md
+
+# Allure CLI local cache
+.allure/
+**/.allure/
+mvn

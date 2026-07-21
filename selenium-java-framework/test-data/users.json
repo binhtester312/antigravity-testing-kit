@@ -3,7 +3,7 @@
     {
       "id": "admin_001",
       "email": "admin@example.com",
-      "password": "12345678",
+      "password": "123456",
       "role": "admin",
       "description": "Tài khoản admin chính — dùng cho happy path tests"
     }
