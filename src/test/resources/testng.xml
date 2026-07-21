@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Perfex CRM — Login Module Test Suite"
+       verbose="2"
+       thread-count="1"
+       parallel="none">
+
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+
+    <!-- ============================================
+         TEST 1: HIGH Priority — Chạy đầu tiên
+    ============================================ -->
+    <test name="[HIGH] Đăng nhập — Critical Tests" preserve-order="true">
+        <groups>
+            <run>
+                <include name="high"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.anhtester.tests.login.LoginTest">
+                <methods>
+                    <include name="TC_001_loginSuccessWithValidCredentials"/>
+                    <include name="TC_002_loginSuccessWithRememberMe"/>
+                    <include name="TC_003_loginWithBothFieldsEmpty"/>
+                    <include name="TC_004_loginWithEmptyEmail"/>
+                    <include name="TC_005_loginWithEmptyPassword"/>
+                    <include name="TC_006_loginWithEmailMissingAtSign"/>
+                    <include name="TC_008_loginWithNonExistentEmail"/>
+                    <include name="TC_009_loginWithWrongPassword"/>
+                    <include name="TC_017_forgotPasswordWithRegisteredEmail"/>
+                    <include name="TC_018_forgotPasswordWithEmptyEmail"/>
+                    <include name="TC_019_forgotPasswordWithNonExistentEmail"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <!-- ============================================
+         TEST 2: MEDIUM Priority
+    ============================================ -->
+    <test name="[MEDIUM] Đăng nhập — Edge Cases" preserve-order="true">
+        <groups>
+            <run>
+                <include name="medium"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.anhtester.tests.login.LoginTest">
+                <methods>
+                    <include name="TC_007_loginWithEmailMissingDomain"/>
+                    <include name="TC_010_loginByPressingEnterKey"/>
+                    <include name="TC_011_loginWithEmailHavingLeadingTrailingSpaces"/>
+                    <include name="TC_012_loginWithSingleCharPassword"/>
+                    <include name="TC_014_loggedInUserAccessLoginUrl"/>
+                    <include name="TC_016_clickForgotPasswordLink"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <!-- ============================================
+         TEST 3: LOW Priority
+    ============================================ -->
+    <test name="[LOW] Đăng nhập — BVA + Logout" preserve-order="true">
+        <groups>
+            <run>
+                <include name="low"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.anhtester.tests.login.LoginTest">
+                <methods>
+                    <include name="TC_013_loginWith255CharPassword"/>
+                    <include name="TC_020_logoutSuccessfully"/>
+                    <include name="TC_021_afterLogoutBrowserBackNotAllowed"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
