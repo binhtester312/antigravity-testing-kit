@@ -1,0 +1,37 @@
+{
+  "validUsers": [
+    {
+      "id": "admin_001",
+      "email": "admin@example.com",
+      "password": "12345678",
+      "role": "admin",
+      "description": "Tài khoản admin chính — dùng cho happy path tests"
+    }
+  ],
+  "invalidCredentials": [
+    {
+      "id": "inv_001",
+      "email": "wrong_user_99@gmail.com",
+      "password": "AnyPass@123",
+      "expectedError": "Invalid email or password",
+      "description": "Email không tồn tại"
+    },
+    {
+      "id": "inv_002",
+      "email": "admin@example.com",
+      "password": "WrongPass@9999",
+      "expectedError": "Invalid email or password",
+      "description": "Email đúng, password sai"
+    }
+  ],
+  "boundaryValues": {
+    "password_min_length": 1,
+    "password_max_length": 255,
+    "password_1_char": "A",
+    "password_255_chars": "Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1"
+  },
+  "forgotPassword": {
+    "registered_email": "admin@example.com",
+    "non_existent_email": "nonexistent_user_xyz@gmail.com"
+  }
+}

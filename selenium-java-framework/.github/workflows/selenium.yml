@@ -1,0 +1,122 @@
+name: Selenium Automation CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  # Cho phép chạy thủ công từ GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: 'Browser để chạy test'
+        required: false
+        default: 'chrome'
+        type: choice
+        options: [ chrome, firefox, edge ]
+
+env:
+  JAVA_VERSION: '17'
+  MAVEN_OPTS: '-Xmx2048m -XX:+UseG1GC'
+
+jobs:
+  test:
+    name: Run Selenium Tests (${{ github.event.inputs.browser || 'chrome' }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # ── Checkout code ──────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Setup Java 17 ──────────────────────────────────────────────
+      - name: Setup Java ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'maven'
+
+      # ── Cache Maven dependencies ───────────────────────────────────
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      # ── Setup Chrome (headless) ─────────────────────────────────────
+      - name: Setup Chrome Browser
+        uses: browser-actions/setup-chrome@v1
+
+      # ── Create config.properties từ GitHub Secrets ─────────────────
+      - name: Create config.properties
+        run: |
+          mkdir -p src/test/resources
+          cat > src/test/resources/config.properties << EOF
+          base.url=${{ secrets.BASE_URL || 'https://crm.anhtester.com/admin/authentication' }}
+          admin.email=${{ secrets.ADMIN_EMAIL || 'admin@example.com' }}
+          admin.password=${{ secrets.ADMIN_PASSWORD || '12345678' }}
+          browser=${{ github.event.inputs.browser || 'chrome' }}
+          headless=true
+          implicit.wait.seconds=10
+          explicit.wait.seconds=15
+          page.load.timeout.seconds=30
+          screenshot.dir=target/screenshots
+          EOF
+
+      # ── Build (compile only) ────────────────────────────────────────
+      - name: Compile project
+        run: mvn clean compile test-compile -q
+
+      # ── Run Tests ──────────────────────────────────────────────────
+      - name: Run Selenium Tests
+        run: |
+          mvn test \
+            -Dbrowser=${{ github.event.inputs.browser || 'chrome' }} \
+            -Dheadless=true \
+            -q
+        continue-on-error: true
+
+      # ── Generate Allure Report ─────────────────────────────────────
+      - name: Generate Allure Report
+        if: always()
+        run: mvn allure:report -q
+
+      # ── Upload Allure Results (raw) ────────────────────────────────
+      - name: Upload Allure Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ github.run_number }}
+          path: target/allure-results/
+          retention-days: 30
+
+      # ── Upload Allure HTML Report ──────────────────────────────────
+      - name: Upload Allure HTML Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-${{ github.run_number }}
+          path: target/allure-report/
+          retention-days: 30
+
+      # ── Upload Screenshots khi FAIL ────────────────────────────────
+      - name: Upload Screenshots (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-${{ github.run_number }}
+          path: target/screenshots/
+          retention-days: 7
+
+      # ── Đăng kết quả lên GitHub PR comment ────────────────────────
+      - name: Test Summary
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: TestNG Results
+          path: target/surefire-reports/*.xml
+          reporter: java-junit
+          fail-on-error: false
