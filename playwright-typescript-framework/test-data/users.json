@@ -1,0 +1,36 @@
+{
+  "valid_users": [
+    {
+      "username": "admin@example.com",
+      "password": "Admin@123456",
+      "role": "admin",
+      "description": "Admin user with full access"
+    },
+    {
+      "username": "user@example.com",
+      "password": "User@123456",
+      "role": "user",
+      "description": "Regular user with limited access"
+    }
+  ],
+  "invalid_users": [
+    {
+      "username": "wrong@example.com",
+      "password": "WrongPass@123",
+      "expected_error": "Invalid credentials",
+      "description": "Wrong username and password"
+    },
+    {
+      "username": "admin@example.com",
+      "password": "WrongPass@999",
+      "expected_error": "Invalid credentials",
+      "description": "Valid username but wrong password"
+    },
+    {
+      "username": "nonexistent@example.com",
+      "password": "Test@12345",
+      "expected_error": "Invalid credentials",
+      "description": "Non-existent user account"
+    }
+  ]
+}
