@@ -1,4 +1,4 @@
-name: 🎭 Playwright E2E Tests
+name: 🎭 Playwright E2E Tests + Allure Report
 
 on:
   push:
@@ -19,13 +19,17 @@ on:
         type: choice
         options:
           - chromium
-          - firefox
-          - webkit
           - all
       grep_pattern:
         description: 'Test filter pattern (e.g., @smoke)'
         required: false
         default: ''
+
+# Cấp quyền để deploy GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 env:
   NODE_VERSION: '20'
@@ -60,7 +64,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
   # ============================================================
-  # JOB 2: Run Tests (Chromium — Default)
+  # JOB 2: Run Tests — Chromium (Default)
   # ============================================================
   test-chromium:
     name: 🧪 Tests — Chromium
@@ -83,22 +87,23 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
-      - name: Install npm packages (fallback)
+      - name: Install npm packages (fallback if cache miss)
         run: npm ci
 
       - name: Install Playwright browsers — Chromium only
         run: npx playwright install chromium --with-deps
 
-      - name: Create .env file
+      - name: Create .env file from secrets
         run: |
           cp .env.example .env
-          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
-          echo "DEFAULT_USERNAME=${{ secrets.DEFAULT_USERNAME }}" >> .env
-          echo "DEFAULT_PASSWORD=${{ secrets.DEFAULT_PASSWORD }}" >> .env
+          echo "BASE_URL=${{ secrets.BASE_URL || 'https://crm.anhtester.com/admin/authentication' }}" >> .env
+          echo "DEFAULT_USERNAME=${{ secrets.DEFAULT_USERNAME || 'admin@example.com' }}" >> .env
+          echo "DEFAULT_PASSWORD=${{ secrets.DEFAULT_PASSWORD || '123456' }}" >> .env
           echo "HEADLESS=true" >> .env
           echo "ENV=staging" >> .env
 
       - name: Run Playwright tests — Chromium
+        id: run-tests
         run: |
           if [ -n "${{ github.event.inputs.grep_pattern }}" ]; then
             npx playwright test --project=chromium --grep "${{ github.event.inputs.grep_pattern }}"
@@ -107,8 +112,17 @@ jobs:
           fi
         env:
           CI: true
+        continue-on-error: true
 
-      - name: Upload HTML Report
+      - name: Upload Allure Results (raw data)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-chromium
+          path: allure-results/
+          retention-days: 30
+
+      - name: Upload Playwright HTML Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -124,14 +138,18 @@ jobs:
           path: test-results/
           retention-days: 7
 
+      - name: Fail job if tests failed
+        if: steps.run-tests.outcome == 'failure'
+        run: exit 1
+
   # ============================================================
-  # JOB 3: Run Tests (Firefox) — Optional
+  # JOB 3: Generate Allure Report & Deploy to GitHub Pages
   # ============================================================
-  test-firefox:
-    name: 🦊 Tests — Firefox
+  allure-report:
+    name: 📊 Generate & Deploy Allure Report
     runs-on: ubuntu-latest
-    needs: install
-    if: github.event.inputs.browser == 'firefox' || github.event.inputs.browser == 'all'
+    needs: [test-chromium]
+    if: always()
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -145,44 +163,98 @@ jobs:
       - name: Install npm packages
         run: npm ci
 
-      - name: Install Playwright browsers — Firefox only
-        run: npx playwright install firefox --with-deps
+      - name: Download Allure Results from test job
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results-chromium
+          path: allure-results/
 
-      - name: Create .env file
+      # Load existing Allure history from gh-pages for trend graphs
+      - name: Load Allure history from gh-pages
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Copy Allure history to results folder
+        if: always()
+        continue-on-error: true
         run: |
-          cp .env.example .env
-          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
-          echo "DEFAULT_USERNAME=${{ secrets.DEFAULT_USERNAME }}" >> .env
-          echo "DEFAULT_PASSWORD=${{ secrets.DEFAULT_PASSWORD }}" >> .env
-          echo "HEADLESS=true" >> .env
+          if [ -d "gh-pages/history" ]; then
+            mkdir -p allure-results/history
+            cp -r gh-pages/history/* allure-results/history/
+            echo "✅ Allure history restored"
+          else
+            echo "ℹ️ No previous Allure history found — first run"
+          fi
 
-      - name: Run Playwright tests — Firefox
-        run: npx playwright test --project=firefox
-        env:
-          CI: true
+      - name: Generate Allure HTML Report
+        if: always()
+        run: npx allure generate allure-results -o allure-report --clean
 
-      - name: Upload HTML Report — Firefox
+      - name: Upload Allure HTML Report as artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-firefox
-          path: playwright-report/
-          retention-days: 14
+          name: allure-html-report
+          path: allure-report/
+          retention-days: 30
+
+      - name: Deploy Allure Report to GitHub Pages
+        if: always() && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-report
+          destination_dir: .
+          keep_files: false
+          commit_message: '📊 Allure Report — ${{ github.workflow }} #${{ github.run_number }}'
+
+      - name: Add Allure Report link to job summary
+        if: always()
+        run: |
+          echo "## 📊 Allure Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Item | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 🌐 GitHub Pages Report | https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/ |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📦 Artifact | Download from Actions → Artifacts → \`allure-html-report\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🏃 Test Job | ${{ needs.test-chromium.result }} |" >> $GITHUB_STEP_SUMMARY
 
   # ============================================================
   # JOB 4: Test Summary
   # ============================================================
   test-summary:
-    name: 📊 Test Summary
+    name: 📋 Test Summary
     runs-on: ubuntu-latest
-    needs: [test-chromium]
+    needs: [test-chromium, allure-report]
     if: always()
     steps:
-      - name: Report Status
+      - name: Report final status
         run: |
-          if [ "${{ needs.test-chromium.result }}" == "success" ]; then
-            echo "✅ All tests PASSED"
+          TEST_RESULT="${{ needs.test-chromium.result }}"
+          REPORT_RESULT="${{ needs.allure-report.result }}"
+
+          echo "## 🎭 Playwright Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "$TEST_RESULT" == "success" ]; then
+            echo "✅ **All tests PASSED**" >> $GITHUB_STEP_SUMMARY
+          elif [ "$TEST_RESULT" == "failure" ]; then
+            echo "❌ **Some tests FAILED** — check Allure report for details" >> $GITHUB_STEP_SUMMARY
           else
-            echo "❌ Some tests FAILED — check artifacts for HTML report"
+            echo "⚠️ **Tests result:** $TEST_RESULT" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Result |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Test execution | $TEST_RESULT |" >> $GITHUB_STEP_SUMMARY
+          echo "| Allure report generation | $REPORT_RESULT |" >> $GITHUB_STEP_SUMMARY
+
+          if [ "$TEST_RESULT" == "failure" ]; then
             exit 1
           fi

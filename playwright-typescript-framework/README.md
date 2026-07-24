@@ -257,7 +257,7 @@ export class YourFeaturePage extends BasePage {
 
 ## 🌐 CI/CD
 
-Framework đã tích hợp **GitHub Actions** tại `.github/workflows/playwright.yml`.
+Framework đã tích hợp **GitHub Actions** tại `.github/workflows/playwright.yml` để tự động hóa kiểm thử và tạo báo cáo Allure.
 
 ### GitHub Secrets cần thiết
 
@@ -267,18 +267,22 @@ Framework đã tích hợp **GitHub Actions** tại `.github/workflows/playwrigh
 | `DEFAULT_USERNAME` | Username cho test account |
 | `DEFAULT_PASSWORD` | Password cho test account |
 
-### Thêm Secrets
+### Thêm Secrets vào GitHub
 
 ```
 GitHub repo → Settings → Secrets and variables → Actions → New repository secret
 ```
 
 ### Pipeline Jobs
+Khi push hoặc tạo PR lên `main` hoặc `develop`, workflow sẽ chạy 4 jobs liên tiếp:
+1. **📦 Install & Validate** — Cài đặt npm dependencies, chạy TypeScript validation (`npm run type-check`).
+2. **🧪 Tests — Chromium** — Chạy toàn bộ test suites trên Chromium headless, lưu trữ screenshots/video khi fail và xuất dữ liệu `allure-results`.
+3. **📊 Generate & Deploy Allure Report** — Tải về results, kế thừa lịch sử (trend graph), tạo HTML report và tự động deploy lên **GitHub Pages** (nhánh `gh-pages`).
+4. **📋 Test Summary** — Hiển thị bảng tổng hợp kết quả (Pass/Fail) và đính kèm trực tiếp link Allure Report trên giao diện tóm tắt của Job.
 
-1. **Install & Validate** — Cài npm, type-check TypeScript
-2. **Tests — Chromium** — Chạy full suite trên Chrome
-3. **Tests — Firefox** — Chạy khi trigger thủ công với `browser=firefox`
-4. **Test Summary** — Báo cáo tổng kết
+### 🌐 Truy cập Allure Report online trên GitHub Pages
+Sau khi pipeline hoàn tất, báo cáo Allure Report online của dự án sẽ sẵn sàng tại địa chỉ:
+`https://<github-username>.github.io/<repo-name>/`
 
 ---
 
@@ -316,18 +320,40 @@ npm run type-check
 
 ## 📊 Báo cáo
 
-Sau khi chạy test, mở HTML report:
+Framework hỗ trợ cả **Playwright HTML Report** (cơ bản) và **Allure Report** (nâng cao, có biểu đồ và phân cấp kịch bản nghiệp vụ trực quan).
 
-```bash
-npm run test:report
-# → Mở browser tại http://localhost:9323
-```
+### 1. Allure Report (Nâng cao - Khuyên dùng)
+Allure Report đã được tích hợp đầy đủ, cấu hình phẳng sạch khớp 100% kịch bản kiểm thử nghiệp vụ, tự động đính kèm screenshot khi test passed/failed và video execution.
+
+* **Chạy tests và tự động generate + mở Allure report:**
+  ```bash
+  npm run test:allure
+  ```
+* **Tạo Allure HTML Report từ dữ liệu sẵn có:**
+  ```bash
+  npm run allure:generate
+  ```
+* **Mở Allure Report đã tạo:**
+  ```bash
+  npm run allure:open
+  ```
+* **Serve nhanh dữ liệu Allure kết quả (không tạo file HTML tĩnh):**
+  ```bash
+  npm run allure:serve
+  ```
+
+### 2. Playwright HTML Report (Cơ bản)
+* **Xem report mặc định của Playwright:**
+  ```bash
+  npm run test:report
+  # → Mở localhost server tại cổng 9323
+  ```
 
 Report bao gồm:
-- ✅ / ❌ Test results
-- 📸 Screenshots khi fail
-- 🎥 Video recordings khi fail
-- 🔍 Trace viewer để debug step-by-step
+- ✅ / ❌ Test results chi tiết
+- 📸 Screenshots đính kèm khi test Passed (bước cuối) hoặc khi Failed (tại thời điểm lỗi)
+- 🎥 Video recordings quá trình chạy test
+- 🔍 Trace viewer để debug step-by-step khi fail
 
 ---
 

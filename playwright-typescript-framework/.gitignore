@@ -37,3 +37,7 @@ logs/
 screenshots/
 videos/
 traces/
+
+# Allure Report
+allure-results/
+allure-report/

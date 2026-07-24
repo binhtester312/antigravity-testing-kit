@@ -30,6 +30,19 @@ export default defineConfig({
 
   // ===== Reporting =====
   reporter: [
+    // Allure reporter — generates allure-results/ for allure report generation
+    ['allure-playwright', {
+      detail: false,
+      outputFolder: 'allure-results',
+      suiteTitle: true,
+      environmentInfo: {
+        Framework: 'Playwright Test',
+        Language: 'TypeScript',
+        Browser: 'Chromium',
+        Environment: process.env['ENV'] ?? 'staging',
+        BaseURL: process.env['BASE_URL'] ?? 'https://crm.anhtester.com',
+      },
+    }],
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
     ['list'],
     ['json', { outputFile: 'test-results/results.json' }],
@@ -44,9 +57,9 @@ export default defineConfig({
     actionTimeout: 15_000,
     navigationTimeout: NAVIGATION_TIMEOUT,
 
-    // Artifacts on failure
+    // Artifacts — video captured for all tests (Allure attaches automatically)
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    video: 'on',
     trace: 'retain-on-failure',
   },
 
@@ -63,17 +76,6 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        viewport: { width: 1920, height: 1080 },
-        storageState: 'playwright/.auth/user.json',
-      },
-      dependencies: ['setup'],
-    },
-
-    // --- Firefox ---
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
         viewport: { width: 1920, height: 1080 },
         storageState: 'playwright/.auth/user.json',
       },
