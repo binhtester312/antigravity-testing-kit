@@ -1,0 +1,2 @@
+[2026-07-24T08:26:44.564Z] [INFO] [LoginPage] ▶ STEP: Navigate to Login page
+[2026-07-24T08:26:47.686Z] [INFO] [LoginPage] ▶ STEP: Click Login button
