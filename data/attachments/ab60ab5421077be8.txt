@@ -1,2 +1,0 @@
-[2026-07-24T07:45:44.873Z] [INFO] [LoginPage] ▶ STEP: Navigate to Login page
-[2026-07-24T07:45:47.551Z] [INFO] [LoginPage] ▶ STEP: Click Forgot Password link

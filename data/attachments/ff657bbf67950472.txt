@@ -1,3 +1,0 @@
-[2026-07-24T07:45:28.676Z] [INFO] [LoginPage] ▶ STEP: Navigate to Login page
-[2026-07-24T07:45:31.653Z] [INFO] [LoginPage] ▶ STEP: Enter password: [MASKED]
-[2026-07-24T07:45:31.864Z] [INFO] [LoginPage] ▶ STEP: Click Login button

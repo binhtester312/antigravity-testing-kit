@@ -1,0 +1,5 @@
+[2026-07-24T08:08:40.978Z] [INFO] [LoginPage] ▶ STEP: Navigate to Login page
+[2026-07-24T08:08:43.217Z] [INFO] [LoginPage] ▶ STEP: Click Forgot Password link
+[2026-07-24T08:08:43.530Z] [INFO] [ForgotPasswordPage] ▶ STEP: Submit Forgot Password for email: nonexistent_user_xyz@gmail.com
+[2026-07-24T08:08:43.530Z] [INFO] [ForgotPasswordPage] ▶ STEP: Enter email in Forgot Password: nonexistent_user_xyz@gmail.com
+[2026-07-24T08:08:43.566Z] [INFO] [ForgotPasswordPage] ▶ STEP: Click Confirm button

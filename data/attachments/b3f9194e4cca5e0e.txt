@@ -1,0 +1,5 @@
+[2026-07-24T08:08:34.203Z] [INFO] [LoginPage] ▶ STEP: Navigate to Login page
+[2026-07-24T08:08:36.696Z] [INFO] [LoginPage] ▶ STEP: Login with email: admin@example.com
+[2026-07-24T08:08:36.696Z] [INFO] [LoginPage] ▶ STEP: Enter email: admin@example.com
+[2026-07-24T08:08:36.837Z] [INFO] [LoginPage] ▶ STEP: Enter password: [MASKED]
+[2026-07-24T08:08:36.902Z] [INFO] [LoginPage] ▶ STEP: Click Login button

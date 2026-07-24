@@ -1,5 +1,0 @@
-[2026-07-24T07:45:35.865Z] [INFO] [LoginPage] ▶ STEP: Navigate to Login page
-[2026-07-24T07:45:38.560Z] [INFO] [LoginPage] ▶ STEP: Login with email: wrong_user_99@gmail.com
-[2026-07-24T07:45:38.560Z] [INFO] [LoginPage] ▶ STEP: Enter email: wrong_user_99@gmail.com
-[2026-07-24T07:45:38.621Z] [INFO] [LoginPage] ▶ STEP: Enter password: [MASKED]
-[2026-07-24T07:45:38.654Z] [INFO] [LoginPage] ▶ STEP: Click Login button
