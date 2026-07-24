@@ -1,0 +1,1 @@
+[{"values":["Playwright Test"],"name":"Framework"},{"values":["TypeScript"],"name":"Language"},{"values":["Chromium"],"name":"Browser"},{"values":["staging"],"name":"Environment"},{"values":["https://crm.anhtester.com/admin/authentication"],"name":"BaseURL"}]
