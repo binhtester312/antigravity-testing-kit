@@ -1,12 +1,13 @@
 ---
 name: qa_automation_engineer_update
-description: "Bổ sung lessons learned cho skill qa_automation_engineer — kinh nghiệm thực tế từ session convert 21 TC Selenium Java sang Playwright TypeScript. Đọc khi: scaffold Playwright TS framework mới, convert từ Selenium Java, debug TypeScript strict mode errors, config multi-browser Chrome + Firefox."
+description: "Bổ sung lessons learned cho skill qa_automation_engineer — kinh nghiệm thực tế từ: (1) session convert 21 TC Selenium Java sang Playwright TypeScript, (2) tích hợp Allure Report + GitHub Actions CI/CD. Đọc khi: scaffold Playwright TS framework mới, tích hợp Allure, setup GitHub Actions CI, debug Variables vs Secrets."
 ---
 
 # QA Automation Engineer — UPDATE (Lessons Learned)
 
 > **File này bổ sung cho `qa_automation_engineer/SKILL.md` (giữ nguyên bản gốc)**
-> Ngày cập nhật: 2026-07-22 | Session: Convert 21 TC Selenium Java → Playwright TypeScript
+> Ngày cập nhật: 2026-07-24 | Session 1: Convert 21 TC Selenium Java → Playwright TypeScript
+> Session 2: Tích hợp Allure Report + GitHub Actions CI/CD
 
 ---
 
@@ -150,3 +151,75 @@ playwright-typescript-framework/
 ├── test-data/users.json
 └── playwright/.auth/       ← KHÔNG commit (.gitignore)
 ```
+
+---
+
+## 📦 SESSION 2: Allure Report + GitHub Actions CI/CD
+
+### 7. Allure Report — Tích Hợp Chuẩn
+
+**Cài đặt:**
+```bash
+npm install --save-dev allure-playwright allure-commandline
+npm install -g allure-commandline    # ← CLI global để dùng lệnh allure
+```
+
+**Config bắt buộc trong `playwright.config.ts`:**
+```typescript
+['allure-playwright', {
+  detail: false,    // ← PHẢI là false — tránh log spam Playwright API calls
+  outputFolder: 'allure-results',
+  suiteTitle: true,
+  environmentInfo: { Framework: 'Playwright Test', Language: 'TypeScript' }
+}]
+```
+
+### 8. Allure — Flat Steps (KHÔNG dùng wrapper Arrange/Act/Assert)
+
+```typescript
+// ✅ Gọi thẳng page methods trong test body
+test('TC_001', async ({ loginPage, dashboardPage }) => {
+  await loginPage.loginWithEmail(email, password);     // parent step
+  await dashboardPage.verifyPageLoaded();              // parent step
+});
+// Allure tự hiển thị hierarchical: page method → base action
+```
+
+### 9. GitHub Actions — 3 Quy Tắc Quan Trọng
+
+**Quy tắc 1: Workflow file PHẢI ở root repo**
+```
+✅ <repo-root>/.github/workflows/playwright.yml
+❌ playwright-typescript-framework/.github/workflows/playwright.yml  → GitHub bỏ qua
+```
+
+**Quy tắc 2: Sub-directory → dùng `defaults.run.working-directory`**
+```yaml
+defaults:
+  run:
+    working-directory: playwright-typescript-framework
+```
+
+**Quy tắc 3: Artifact path từ workspace root, không phải working-directory**
+```yaml
+path: playwright-typescript-framework/allure-results   # ✅
+path: allure-results                                    # ❌
+```
+
+### 10. GitHub Actions — Variables vs Secrets
+
+| Tạo ở | Cú pháp | Dùng khi |
+|-------|---------|----------|
+| Tab **Variables** | `${{ vars.BASE_URL }}` | URL, username — không nhạy cảm |
+| Tab **Secrets** | `${{ secrets.MY_TOKEN }}` | Password, API key nhạy cảm |
+
+Nhầm lẫn 2 loại → biến ra **empty string** trong CI → test fail do credentials trống.
+
+### 11. GitHub Pages — Bật Thủ Công 1 Lần
+
+```
+Settings → Pages → Source: Deploy from a branch
+Branch: gh-pages → Folder: / (root) → Save
+```
+
+Report online tại: `https://<username>.github.io/<repo-name>/`

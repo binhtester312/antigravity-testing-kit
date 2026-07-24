@@ -2,7 +2,8 @@
 
 > **File này bổ sung cho `playwright_rules.md` (giữ nguyên bản gốc)**
 > Ghi nhận những vấn đề thực tế gặp phải khi triển khai Playwright TypeScript framework.
-> Ngày cập nhật: 2026-07-22 | Session: Chuyển 21 TC Selenium Java → Playwright TypeScript
+> Ngày cập nhật: 2026-07-24 | Session 1: Chuyển 21 TC Selenium Java → Playwright TypeScript
+> Session 2: Tích hợp Allure Report + GitHub Actions CI/CD
 
 ---
 
@@ -259,3 +260,211 @@ playwright-typescript-framework/
     └── .auth/
         └── user.json             ← Auto-generated, KHÔNG commit
 ```
+
+---
+
+## L10. Allure Report — Tích Hợp Chuẩn (SESSION 2)
+
+### Cài đặt
+
+```bash
+npm install --save-dev allure-playwright allure-commandline
+```
+
+### playwright.config.ts — reporter block
+
+```typescript
+reporter: [
+  ['allure-playwright', {
+    detail: false,          // ← QUAN TRỌNG: tắt auto-log Playwright API calls
+    outputFolder: 'allure-results',
+    suiteTitle: true,
+    environmentInfo: {
+      Framework: 'Playwright Test',
+      Language: 'TypeScript',
+      Browser: 'Chromium',
+      Environment: process.env['ENV'] ?? 'staging',
+      BaseURL: process.env['BASE_URL'] ?? 'https://crm.anhtester.com',
+    },
+  }],
+  ['html', { outputFolder: 'playwright-report', open: 'never' }],
+  ['list'],
+  ['json', { outputFile: 'test-results/results.json' }],
+],
+```
+
+### ⚠️ `detail: false` là bắt buộc
+
+Nếu để `detail: true` (mặc định), Allure sẽ tự động log TẤT CẢ lệnh Playwright API nhỏ lẻ (`locator.click()`, `expect.toBeVisible()`, v.v.) → report rất dài và khó đọc.
+
+---
+
+## L11. Allure — Flat Step Hierarchy (KHÔNG dùng Arrange/Act/Assert)
+
+### ❌ Sai — quá nhiều lớp wrapper rườm rà
+
+```typescript
+test('TC_001', async ({ loginPage, dashboardPage }) => {
+  await test.step('[Arrange] Prepare credentials', async () => {});
+  await test.step('[Act] Submit login', async () => {
+    await loginPage.loginWithEmail('admin@example.com', '123456');
+  });
+  await test.step('[Assert] Verify Dashboard', async () => {
+    await dashboardPage.verifyPageLoaded();
+  });
+});
+```
+
+### ✅ Đúng — gọi thẳng page methods
+
+```typescript
+test('TC_001', async ({ loginPage, dashboardPage }) => {
+  await loginPage.loginWithEmail('admin@example.com', '123456');
+  await dashboardPage.verifyPageLoaded();
+});
+```
+
+Kết quả trong Allure Test Body:
+```
+├─ Login to CRM with email: "admin@example.com"       ← parent step từ loginPage
+│    ├─ Enter email into #email                        ← child step từ basePage
+│    ├─ Enter password: "••••••••"                     ← child step (masked)
+│    └─ Click Login button                             ← child step
+└─ Verify Dashboard page loaded successfully           ← parent step từ dashboardPage
+```
+
+---
+
+## L12. Allure — Tự Động Che Mật Khẩu (Password Masking)
+
+Trong `base.page.ts`, khi dùng `allure.step()` cho action fill:
+
+```typescript
+// Phát hiện field password bằng inputType
+const inputType = await locator.getAttribute('type');
+const isPassword = inputType === 'password';
+const displayValue = isPassword ? '•'.repeat(8) : value;
+
+await allure.step(`Enter ${label}: "${displayValue}" into input "${selectorStr}"`, async () => {
+  await locator.fill(value);
+});
+```
+
+---
+
+## L13. Allure — Auto Screenshot Khi Test PASS
+
+Trong `base.fixture.ts`, dùng `test.afterEach` để đính kèm screenshot sau khi test PASS:
+
+```typescript
+test.afterEach(async ({ page }, testInfo) => {
+  if (testInfo.status === 'passed') {
+    const screenshot = await page.screenshot({ fullPage: false });
+    await allure.attachment('final-screenshot-passed', screenshot, {
+      contentType: 'image/png',
+    });
+  }
+});
+```
+
+---
+
+## L14. Allure — Lệnh CLI Local
+
+```bash
+# Cài Allure CLI global (chạy 1 lần)
+npm install -g allure-commandline
+
+# Generate HTML report
+allure generate allure-results --clean
+
+# Mở report vừa generate
+allure open allure-report
+
+# Hoặc serve trực tiếp (không cần generate trước)
+allure serve allure-results
+```
+
+### package.json scripts tiêu chuẩn
+
+```json
+"allure:clean":    "rimraf allure-results allure-report",
+"allure:generate": "allure generate allure-results -o allure-report --clean",
+"allure:open":     "allure open allure-report",
+"allure:serve":    "allure serve allure-results",
+"test:allure":     "playwright test && npm run allure:generate && npm run allure:open"
+```
+
+---
+
+## L15. GitHub Actions — Vị Trí File Workflow (QUAN TRỌNG)
+
+GitHub Actions **chỉ** nhận diện workflow ở thư mục gốc của repo:
+```
+<repo-root>/.github/workflows/*.yml   ← ĐÂY mới đúng
+```
+
+**Không được** đặt trong thư mục con:
+```
+playwright-typescript-framework/.github/workflows/playwright.yml  ← SAI, GitHub bỏ qua
+```
+
+### Khi project nằm trong thư mục con, dùng `working-directory`:
+
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: playwright-typescript-framework   # ← set cho toàn job
+    steps:
+      - run: npm ci
+      - run: npx playwright test --project=chromium
+```
+
+---
+
+## L16. GitHub Actions — Variables vs Secrets
+
+GitHub có 2 loại lưu trữ giá trị:
+
+| Loại | Cú pháp trong workflow | Dùng khi |
+|------|------------------------|----------|
+| **Repository Secrets** | `${{ secrets.MY_SECRET }}` | Mật khẩu, token, API key nhạy cảm |
+| **Repository Variables** | `${{ vars.MY_VAR }}` | Giá trị không nhạy cảm (URL, username) |
+
+Bạn dùng loại nào thì phải viết đúng cú pháp tương ứng.
+
+```yaml
+# ✅ Đúng — dùng vars.XXX khi user đã tạo Repository Variables
+- name: Create .env
+  run: |
+    echo "BASE_URL=${{ vars.BASE_URL }}" >> .env
+    echo "DEFAULT_USERNAME=${{ vars.DEFAULT_USERNAME }}" >> .env
+    echo "DEFAULT_PASSWORD=${{ vars.DEFAULT_PASSWORD }}" >> .env
+
+# ❌ Sai — dùng secrets.XXX nhưng user chỉ tạo Variables (không phải Secrets)
+    echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
+```
+
+**Cách kiểm tra**: Vào `Settings → Secrets and variables → Actions`:
+- Tab **Secrets** → dùng `secrets.XXX`
+- Tab **Variables** → dùng `vars.XXX`
+
+---
+
+## L17. GitHub Pages — Bật Thủ Công Lần Đầu
+
+Deploy Allure Report lên GitHub Pages cần bật thủ công 1 lần trong Settings:
+
+```
+Settings → Pages → Build and deployment
+  Source: Deploy from a branch
+  Branch: gh-pages
+  Folder: / (root)
+  → Save
+```
+
+Sau khi bật, mỗi lần CI chạy và deploy thành công, report sẽ cập nhật tại:
+`https://<github-username>.github.io/<repo-name>/`
