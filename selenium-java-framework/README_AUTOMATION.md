@@ -1,210 +1,91 @@
-# Perfex CRM — Selenium 4 Web Automation Framework
+# 🚀 PERFEX CRM — SELENIUM 4 AUTOMATION FRAMEWORK
 
-[![Selenium](https://img.shields.io/badge/Selenium-4.27.0-43B02A?logo=selenium)](https://www.selenium.dev/)
-[![Java](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk)](https://openjdk.org/)
-[![TestNG](https://img.shields.io/badge/TestNG-7.10.2-orange)](https://testng.org/)
-[![Allure](https://img.shields.io/badge/Allure-2.29.1-blue)](https://allurereport.org/)
-[![CI](https://github.com/binhtester312/antigravity-testing-kit/actions/workflows/selenium.yml/badge.svg)](https://github.com/binhtester312/antigravity-testing-kit/actions)
-
-## 📋 Tổng quan
-
-Automation framework chuyên nghiệp cho **Perfex CRM** (crm.anhtester.com), xây dựng theo
-**Page Object Model (POM)** với đầy đủ reporting, logging và CI/CD.
-
-**Hệ thống được test:** https://crm.anhtester.com  
-**Module hiện tại:** Login / Forgot Password / Logout (21 TCs)
+Hệ thống Automation Testing hoàn chỉnh cho dự án **Perfex CRM** (https://crm.anhtester.com), được thiết kế theo mô hình **Page Object Model (POM)** chuẩn enterprise với ngôn ngữ **Java**, **Selenium WebDriver 4**, **TestNG**, **Allure Report**, và hỗ trợ **Data-Driven Testing (DDT)**.
 
 ---
 
-## 🏗️ Cấu trúc Project
+## 📁 CẤU TRÚC DỰ ÁN (PROJECT STRUCTURE)
 
-```
-perfexcrm-selenium-automation/
-├── pom.xml                          # Maven config — dependencies + plugins
-├── .env.example                     # Template cấu hình (copy → config.properties)
-├── .gitignore
-├── README.md
-│
-├── src/main/java/com/anhtester/
-│   ├── config/
-│   │   └── ConfigReader.java        # Đọc config — hỗ trợ env override cho CI/CD
-│   ├── driver/
-│   │   └── DriverFactory.java       # Factory + ThreadLocal WebDriver
-│   ├── pages/                       # Page Object Model
-│   │   ├── BasePage.java            # Common methods (click, type, wait...)
-│   │   ├── LoginPage.java
-│   │   ├── ForgotPasswordPage.java
-│   │   └── DashboardPage.java
-│   └── utils/
-│       ├── WaitHelper.java          # Smart waits (ExpectedConditions)
-│       ├── AllureUtils.java         # Screenshot + Allure attachments
-│       └── TestDataGenerator.java   # Sinh data unique + traceable
-│
-├── src/main/resources/
-│   └── log4j2.xml                   # Log4j 2 — console + file rolling
-│
-├── src/test/java/com/anhtester/
-│   ├── base/
-│   │   └── BaseTest.java            # Setup/Teardown + screenshot on fail
-│   └── tests/login/
-│       └── LoginTest.java           # 20 automated TCs
-│
-├── src/test/resources/
-│   ├── config.properties            # Cấu hình local (không commit!)
-│   ├── allure.properties
-│   └── testng.xml                   # TestNG suite — nhóm theo priority
-│
+```text
+selenium-java-framework/
+├── requirements_login.md           # Tài liệu yêu cầu Module Login (21 TCs)
+├── requirements_customer.md        # Tài liệu yêu cầu Module Customers (26 TCs)
+├── testcases_login.md              # Bộ Test Cases RBT Module Login (Markdown)
+├── testcases_customer.md           # Bộ Test Cases RBT Module Customers (Markdown)
 ├── test-data/
-│   └── users.json                   # External test data
-│
-└── .github/workflows/
-    └── selenium.yml                 # GitHub Actions CI/CD
+│   ├── users.json                  # Dữ liệu test tài khoản Login
+│   ├── customers.json              # Dữ liệu test template Customers (DDT)
+│   └── testcases_customer.csv      # File CSV Test Cases Customers (Import Jira/Xray)
+├── src/
+│   ├── main/java/com/anhtester/
+│   │   ├── config/                 # ConfigReader (Đọc file config.properties)
+│   │   ├── driver/                 # DriverFactory (ThreadLocal WebDriver setup)
+│   │   ├── pages/                  # Page Object Classes
+│   │   │   ├── BasePage.java       # Parent Page Object (UI Interactions & Waits)
+│   │   │   ├── LoginPage.java      # Page Object Module Login
+│   │   │   ├── DashboardPage.java  # Page Object Dashboard & Navigation
+│   │   │   ├── CustomerPage.java   # Page Object Module Customers
+│   │   │   └── ForgotPasswordPage.java
+│   │   └── utils/                  # Helpers & Dynamic Data Generator
+│   │       ├── WaitHelper.java     # Smart Waits (Explicit Waits)
+│   │       ├── DataGenerator.java  # Generator dữ liệu ngẫu nhiên duy nhất (Zero hardcode)
+│   │       └── ScreenshotUtil.java # Chụp ảnh màn hình tự động khi FAIL
+│   └── test/java/com/anhtester/
+│       ├── base/BaseTest.java      # Parent Test Class (@BeforeMethod / @AfterMethod)
+│       └── tests/                  # Test Suites Execution
+│           ├── login/LoginTest.java      # 21 Test Cases Automation Login
+│           └── customer/CustomerTest.java # 26 Test Cases Automation Customers (DDT)
+└── src/test/resources/
+    ├── config.properties           # Cấu hình môi trường (URL, Browser, Wait Timeouts)
+    └── testng.xml                  # File runner cấu hình Suite TestNG
 ```
 
 ---
 
-## ⚙️ Yêu cầu hệ thống
+## ⚡ HƯỚNG DẪN CHẠY TEST AUTOMATION (EXECUTION COMMANDS)
 
-| Công cụ | Phiên bản tối thiểu | Kiểm tra |
-|---------|---------------------|---------|
-| Java JDK | 17+ | `java -version` |
-| Maven | 3.8+ | `mvn -version` |
-| Google Chrome | Mới nhất | Tự động qua WebDriverManager |
-| Allure CLI | 2.x (tùy chọn) | `allure --version` |
+Luôn mở Terminal tại thư mục `selenium-java-framework` và sử dụng các lệnh Maven (có tiền tố `rtk` tối ưu token):
+
+### 1. Kiểm tra biên dịch mã nguồn (Test Compile)
+```bash
+rtk mvn test-compile
+```
+
+### 2. Chạy toàn bộ Test Suites (Cả Login & Customers)
+```bash
+rtk mvn test
+```
+
+### 3. Chạy riêng từng Module:
+
+* **Chạy riêng Module Login:**
+  ```bash
+  rtk mvn test -Dtest=LoginTest
+  ```
+
+* **Chạy riêng Module Customers:**
+  ```bash
+  rtk mvn test -Dtest=CustomerTest
+  ```
+
+### 4. Chạy theo Nhóm / Tags (TestNG Groups):
+
+* **Chạy các test case Smoke / Critical:**
+  ```bash
+  rtk mvn test -Dgroups="smoke"
+  ```
+
+* **Chạy các test case thuộc nhóm High Risk:**
+  ```bash
+  rtk mvn test -Dgroups="high"
+  ```
 
 ---
 
-## 🚀 Cài đặt & Chạy
+## 📊 XEM BÁO CÁO ALLURE REPORT
 
-### 1. Clone repo
-
-```bash
-git clone https://github.com/binhtester312/antigravity-testing-kit.git
-cd antigravity-testing-kit
-```
-
-### 2. Cấu hình
+Sau khi chạy test xong, tạo và mở báo cáo đồ họa Allure Report bằng lệnh:
 
 ```bash
-# Copy template → config thực tế
-cp .env.example src/test/resources/config.properties
-
-# Mở file và điền credentials thực
-# vi src/test/resources/config.properties
-```
-
-Chỉnh sửa `config.properties`:
-```properties
-base.url=https://crm.anhtester.com/admin/authentication
-admin.email=your_admin@email.com
-admin.password=your_password
-browser=chrome
-headless=false
-```
-
-### 3. Compile
-
-```bash
-mvn clean compile test-compile
-```
-
-### 4. Chạy test
-
-```bash
-# Chạy toàn bộ test suite
-mvn clean test
-
-# Chỉ chạy HIGH priority tests
-mvn clean test -Dgroups=high
-
-# Chạy trên Firefox
-mvn clean test -Dbrowser=firefox
-
-# Chạy headless (không mở browser)
-mvn clean test -Dheadless=true
-
-# Chạy 1 test cụ thể
-mvn clean test -Dtest=LoginTest#TC_001_loginSuccessWithValidCredentials
-```
-
-### 5. Xem Allure Report
-
-```bash
-# Sinh report HTML
-mvn allure:report
-
-# Mở report trên browser (tự động)
 mvn allure:serve
 ```
-
----
-
-## 📊 Test Suite — Module Login
-
-| Priority | Số TCs | Nhóm |
-|----------|--------|------|
-| 🔴 HIGH | 11 TCs | TC_001~009, TC_017~019 |
-| 🟡 MEDIUM | 6 TCs | TC_007, TC_010, TC_011, TC_012, TC_014, TC_016 |
-| 🟢 LOW | 3 TCs | TC_013, TC_020, TC_021 |
-| ⚫ SKIP | 1 TC | TC_015 (CSRF — manual only) |
-| **TOTAL** | **20 TCs** | |
-
----
-
-## 🔧 Cấu hình nâng cao
-
-### Chạy với browser khác
-
-```bash
-# Firefox
-mvn test -Dbrowser=firefox
-
-# Edge
-mvn test -Dbrowser=edge
-```
-
-### Override config qua System properties
-
-```bash
-mvn test -Dbase.url=https://staging.example.com -Dadmin.email=test@test.com
-```
-
-### Cài Allure CLI để xem report offline
-
-```bash
-# macOS
-brew install allure
-
-# Sau khi chạy test
-allure serve target/allure-results
-```
-
----
-
-## 🏛️ Design Principles
-
-| Nguyên tắc | Áp dụng |
-|---|---|
-| **Page Object Model** | Mỗi page → 1 class, locators khai báo trong page |
-| **ThreadLocal Driver** | DriverFactory đảm bảo parallel test an toàn |
-| **Smart Waits Only** | KHÔNG có `Thread.sleep()` — chỉ dùng `ExpectedConditions` |
-| **Config over Code** | Tất cả env config trong `config.properties` |
-| **Fail Fast, Log Rich** | Screenshot tự động khi FAIL, Log4j2 mọi action |
-| **Unique Test Data** | Email/username luôn có timestamp để tránh conflict |
-
----
-
-## 🤝 Đóng góp
-
-1. Fork repo
-2. Tạo branch: `git checkout -b feat/ten-tinh-nang`
-3. Commit với message rõ ràng (tiếng Việt OK)
-4. Push và tạo Pull Request
-
----
-
-## 📞 Liên hệ
-
-- **Author:** Anh Tester
-- **Community:** [Cộng đồng Tester Việt Nam](https://github.com/binhtester312)
-- **Kit:** Antigravity Testing Kit

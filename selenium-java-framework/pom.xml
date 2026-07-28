@@ -181,7 +181,6 @@
                     </suiteXmlFiles>
                     <!-- AspectJ javaagent — BẮT BUỘC để Allure @Step hoạt động -->
                     <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                         -Dfile.encoding=UTF-8
                     </argLine>
                     <systemPropertyVariables>

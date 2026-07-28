@@ -76,8 +76,7 @@ public class BaseTest {
         loginPage.login(ConfigReader.getAdminEmail(), ConfigReader.getAdminPassword());
 
         // Chờ redirect về Dashboard
-        new WebDriverWait(DriverFactory.getDriver(), Duration.ofSeconds(ConfigReader.getExplicitWait()))
-            .until(ExpectedConditions.urlContains("/admin/"));
+        WaitHelper.waitForUrlContains("/admin/");
 
         log.info("Pre-condition: login thành công, URL: {}", DriverFactory.getDriver().getCurrentUrl());
     }

@@ -1,0 +1,36 @@
+{
+  "validCustomerTemplates": [
+    {
+      "id": "cust_tpl_001",
+      "companyPrefix": "Auto_Enterprise_",
+      "city": "Ho Chi Minh City",
+      "address": "123 Nguyen Hue Street, District 1",
+      "description": "Template tạo mới khách hàng doanh nghiệp chuẩn"
+    },
+    {
+      "id": "cust_tpl_002",
+      "companyPrefix": "Auto_Logistics_",
+      "city": "Ha Noi",
+      "address": "456 Le Duai Street, Ba Dinh District",
+      "description": "Template tạo mới khách hàng ngành logistics"
+    }
+  ],
+  "invalidCustomerInputs": [
+    {
+      "id": "inv_cust_001",
+      "company": "",
+      "expectedError": "This field is required.",
+      "description": "Để trống trường bắt buộc Company"
+    },
+    {
+      "id": "inv_cust_002",
+      "website": "not_a_valid_url_format",
+      "expectedError": "Please enter a valid URL",
+      "description": "Website sai định dạng URL"
+    }
+  ],
+  "searchKeywords": {
+    "nonExistent": "NON_EXISTENT_COMPANY_XYZ_99999",
+    "specialChars": "@#$%^&*"
+  }
+}

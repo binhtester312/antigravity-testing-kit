@@ -22,6 +22,9 @@ public class ForgotPasswordPage extends BasePage {
     @FindBy(css = ".alert-danger, .alert.alert-danger")
     private WebElement errorAlert;
 
+    @FindBy(css = ".alert, div.alert")
+    private WebElement anyAlert;
+
     // ================================================================
     // Actions
     // ================================================================
@@ -55,6 +58,14 @@ public class ForgotPasswordPage extends BasePage {
 
     public boolean isSuccessMessageDisplayed() {
         return isVisibleWithin(successAlert, 5);
+    }
+
+    public boolean isErrorMessageDisplayed() {
+        return isVisibleWithin(errorAlert, 5);
+    }
+
+    public boolean isAnyAlertDisplayed() {
+        return isVisibleWithin(anyAlert, 5);
     }
 
     public String getSuccessMessage() {

@@ -9,26 +9,29 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
-import static com.anhtester.config.ConfigReader.getExplicitWait;
-
 /**
  * BasePage — Lớp cha cho tất cả Page Objects
  *
  * Cung cấp:
  * - Common UI interactions: click, type, getText, isVisible...
  * - Smart waits tích hợp (qua WaitHelper)
+ * - Dynamic WebDriver resolution từ DriverFactory (Chống lỗi NoSuchSessionException)
  * - Logging mỗi action bằng Log4j2
- * - KHÔNG chứa @FindBy — mỗi Page con tự khai báo locators
  */
 public abstract class BasePage {
 
     protected final Logger log = LogManager.getLogger(getClass());
-    protected final WebDriver driver;
 
     protected BasePage() {
-        this.driver = DriverFactory.getDriver();
-        PageFactory.initElements(driver, this);
+        PageFactory.initElements(DriverFactory.getDriver(), this);
         log.debug("Khởi tạo Page: {}", getClass().getSimpleName());
+    }
+
+    /**
+     * Luôn lấy instance WebDriver mới nhất từ ThreadLocal của DriverFactory
+     */
+    protected WebDriver getDriver() {
+        return DriverFactory.getDriver();
     }
 
     // ================================================================
@@ -38,16 +41,16 @@ public abstract class BasePage {
     @Step("Mở URL: {url}")
     public void openUrl(String url) {
         log.info("Mở URL: {}", url);
-        driver.get(url);
+        getDriver().get(url);
         WaitHelper.waitForPageLoad();
     }
 
     public String getCurrentUrl() {
-        return driver.getCurrentUrl();
+        return getDriver().getCurrentUrl();
     }
 
     public String getPageTitle() {
-        return driver.getTitle();
+        return getDriver().getTitle();
     }
 
     // ================================================================
@@ -64,14 +67,24 @@ public abstract class BasePage {
     @Step("Click element (JavaScript)")
     protected void jsClick(WebElement element) {
         log.debug("JS Click: {}", describeElement(element));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
+    }
+
+    @Step("Hover chuột vào element")
+    protected void hover(WebElement element) {
+        log.debug("Hover: {}", describeElement(element));
+        WaitHelper.waitForVisible(element);
+        new org.openqa.selenium.interactions.Actions(getDriver()).moveToElement(element).perform();
     }
 
     @Step("Xóa và nhập text: [{text}]")
     protected void clearAndType(WebElement element, String text) {
         log.debug("clearAndType: '{}' → element: {}", text, describeElement(element));
         WaitHelper.waitForVisible(element);
-        element.clear();
+        element.sendKeys(Keys.chord(Keys.COMMAND, "a"));
+        element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        element.sendKeys(Keys.BACK_SPACE);
+        try { Thread.sleep(200); } catch (InterruptedException ignored) {}
         element.sendKeys(text);
     }
 
@@ -144,11 +157,11 @@ public abstract class BasePage {
     // ================================================================
 
     protected void scrollIntoView(WebElement element) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", element);
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView({block:'center'});", element);
     }
 
     protected Object executeScript(String script, Object... args) {
-        return ((JavascriptExecutor) driver).executeScript(script, args);
+        return ((JavascriptExecutor) getDriver()).executeScript(script, args);
     }
 
     // ================================================================

@@ -64,8 +64,14 @@ public class LoginPage extends BasePage {
     @Step("Tick checkbox 'Remember me'")
     public LoginPage checkRememberMe() {
         log.info("Tick Remember me");
-        if (!rememberMeCheckbox.isSelected()) {
-            click(rememberMeCheckbox);
+        try {
+            if (!rememberMeCheckbox.isSelected()) {
+                click(rememberMeCheckbox);
+            }
+        } catch (Exception e) {
+            log.info("Click label 'Remember me' thay cho ô checkbox ẩn");
+            WebElement label = getDriver().findElement(org.openqa.selenium.By.cssSelector("label[for='remember'], label[for='remember_me'], .checkbox label"));
+            click(label);
         }
         return this;
     }

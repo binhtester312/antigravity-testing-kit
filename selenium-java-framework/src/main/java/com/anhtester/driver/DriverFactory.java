@@ -52,7 +52,11 @@ public final class DriverFactory {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(ConfigReader.getImplicitWait()));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(ConfigReader.getPageLoadTimeout()));
-        driver.manage().window().maximize();
+        if (headless) {
+            driver.manage().window().setSize(new org.openqa.selenium.Dimension(1920, 1080));
+        } else {
+            driver.manage().window().maximize();
+        }
 
         driverHolder.set(driver);
         log.debug("WebDriver khởi tạo thành công — Thread: {}", Thread.currentThread().getName());

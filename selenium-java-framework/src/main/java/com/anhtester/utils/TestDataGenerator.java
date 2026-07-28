@@ -113,6 +113,36 @@ public final class TestDataGenerator {
     }
 
     // ================================================================
+    // Perfex CRM Specific Data Generators (imported from DataGenerator)
+    // ================================================================
+
+    public static String generateCompanyName() {
+        return "Auto_Company_" + Instant.now().getEpochSecond();
+    }
+
+    public static String generateLongCompanyName(int length) {
+        StringBuilder sb = new StringBuilder("Auto_");
+        while (sb.length() < length) {
+            sb.append(java.util.UUID.randomUUID().toString().replace("-", ""));
+        }
+        return sb.substring(0, length);
+    }
+
+    public static String generateVatNumber() {
+        return "VAT_" + (System.currentTimeMillis() % 100000000);
+    }
+
+    public static String generatePhoneNumber() {
+        long randomNum = (long) (Math.random() * 100000000L);
+        return String.format("09%08d", randomNum);
+    }
+
+    public static String generateWebsiteUrl(String companyName) {
+        String cleanName = companyName.toLowerCase().replaceAll("[^a-z0-9]", "");
+        return "https://www." + cleanName + ".com.vn";
+    }
+
+    // ================================================================
     // Private helpers
     // ================================================================
 
