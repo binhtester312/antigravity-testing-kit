@@ -1,0 +1,7 @@
+[2026-07-28T12:20:42.813Z] [INFO] [LoginPage] ▶ STEP: Navigate to Login page
+[2026-07-28T12:20:45.757Z] [INFO] [LoginPage] ▶ STEP: Login with Remember Me: admin@example.com
+[2026-07-28T12:20:45.757Z] [INFO] [LoginPage] ▶ STEP: Enter email: admin@example.com
+[2026-07-28T12:20:45.841Z] [INFO] [LoginPage] ▶ STEP: Enter password: [MASKED]
+[2026-07-28T12:20:45.901Z] [INFO] [LoginPage] ▶ STEP: Check Remember Me
+[2026-07-28T12:20:46.123Z] [INFO] [LoginPage] ▶ STEP: Click Login button
+[2026-07-28T12:20:46.980Z] [INFO] [DashboardPage] ▶ STEP: Verify Dashboard page loaded

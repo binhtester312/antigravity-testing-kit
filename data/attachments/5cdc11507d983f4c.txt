@@ -1,0 +1,8 @@
+[2026-07-28T12:21:08.073Z] [INFO] [LoginPage] ▶ STEP: Navigate to Login page
+[2026-07-28T12:21:10.750Z] [INFO] [LoginPage] ▶ STEP: Login with email: admin@example.com
+[2026-07-28T12:21:10.750Z] [INFO] [LoginPage] ▶ STEP: Enter email: admin@example.com
+[2026-07-28T12:21:10.805Z] [INFO] [LoginPage] ▶ STEP: Enter password: [MASKED]
+[2026-07-28T12:21:10.839Z] [INFO] [LoginPage] ▶ STEP: Click Login button
+[2026-07-28T12:21:11.574Z] [INFO] [DashboardPage] ▶ STEP: Verify Dashboard page loaded
+[2026-07-28T12:21:11.631Z] [INFO] [DashboardPage] ▶ STEP: Perform logout
+[2026-07-28T12:21:13.448Z] [INFO] [DashboardPage] ▶ STEP: Click profile dropdown
