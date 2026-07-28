@@ -1,0 +1,11 @@
+[2026-07-28T04:49:53.937Z] [INFO] [AuthSetup] Starting authentication setup...
+[2026-07-28T04:49:53.937Z] [INFO] [AuthSetup] Base URL: https://crm.anhtester.com/admin/authentication
+[2026-07-28T04:49:53.937Z] [INFO] [AuthSetup] Username: admin@example.com
+[2026-07-28T04:49:53.942Z] [INFO] [LoginPage] ▶ STEP: Navigate to Login page
+[2026-07-28T04:49:56.670Z] [INFO] [LoginPage] ▶ STEP: Login with default credentials from env
+[2026-07-28T04:49:56.671Z] [INFO] [LoginPage] ▶ STEP: Login with email: admin@example.com
+[2026-07-28T04:49:56.671Z] [INFO] [LoginPage] ▶ STEP: Enter email: admin@example.com
+[2026-07-28T04:49:56.744Z] [INFO] [LoginPage] ▶ STEP: Enter password: [MASKED]
+[2026-07-28T04:49:56.793Z] [INFO] [LoginPage] ▶ STEP: Click Login button
+[2026-07-28T04:49:57.450Z] [INFO] [AuthSetup] Authentication successful. Saving storage state...
+[2026-07-28T04:49:57.459Z] [INFO] [AuthSetup] Auth state saved to: playwright/.auth/user.json
