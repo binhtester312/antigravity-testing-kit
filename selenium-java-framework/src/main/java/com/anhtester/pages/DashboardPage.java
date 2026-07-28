@@ -27,6 +27,9 @@ public class DashboardPage extends BasePage {
     @FindBy(css = "li.menu-item-clients > a, li.menu-item-customers > a, #sidebar a[href*='clients'], a[href*='admin/clients']")
     private WebElement customersMenu;
 
+    @FindBy(css = "li.menu-item-contracts > a, #sidebar a[href*='contracts'], a[href*='admin/contracts']")
+    private WebElement contractsMenu;
+
     // ================================================================
     // Actions
     // ================================================================
@@ -45,6 +48,22 @@ public class DashboardPage extends BasePage {
             openUrl("https://crm.anhtester.com/admin/clients");
         }
         return new CustomerPage();
+    }
+
+    @Step("Chuyển đến trang Contracts")
+    public ContractPage openContractsPage() {
+        log.info("Chuyển đến trang Contracts");
+        try {
+            if (isVisibleWithin(contractsMenu, 3)) {
+                click(contractsMenu);
+            } else {
+                openUrl("https://crm.anhtester.com/admin/contracts");
+            }
+        } catch (Exception e) {
+            log.warn("Click menu Contracts bị lỗi, tự động dùng direct URL navigation fallback");
+            openUrl("https://crm.anhtester.com/admin/contracts");
+        }
+        return new ContractPage();
     }
 
     @Step("Click avatar / profile dropdown")
