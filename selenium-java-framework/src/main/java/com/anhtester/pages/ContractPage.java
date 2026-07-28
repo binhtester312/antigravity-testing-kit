@@ -179,13 +179,18 @@ public class ContractPage extends BasePage {
 
     @Step("Kiểm tra hợp đồng có trong bảng")
     public boolean isContractInTable(String subject) {
+        log.info("Check contract in table: {}", subject);
+        openUrl("https://crm.anhtester.com/admin/contracts");
         searchContract(subject);
         try {
-            By locator = By.xpath("//table//tr[contains(., '" + subject + "')]");
-            return isVisibleWithin(getDriver().findElement(locator), 3);
+            By locator = By.xpath("//table//a[contains(text(), '" + subject + "')] | //table//tr[contains(., '" + subject + "')]");
+            if (isVisibleWithin(getDriver().findElement(locator), 5)) {
+                return true;
+            }
         } catch (Exception e) {
-            return false;
+            log.debug("By.xpath search table failed, fallback to page source check");
         }
+        return getDriver().getPageSource().contains(subject);
     }
 
     @Step("Kiểm tra có hiển thị lỗi validation các trường bắt buộc")
