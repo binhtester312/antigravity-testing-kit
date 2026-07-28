@@ -12,6 +12,7 @@ import { AllureHelper } from '../utils/allure.helper';
 import { LoginPage } from '../pages/login.page';
 import { DashboardPage } from '../pages/dashboard.page';
 import { ForgotPasswordPage } from '../pages/forgot-password.page';
+import { ContractsPage } from '../pages/contracts.page';
 import { EnvConfig } from '../utils/env.config';
 import { TestDataGenerator } from '../utils/test-data';
 
@@ -19,6 +20,7 @@ export type TestFixtures = {
   loginPage: LoginPage;
   dashboardPage: DashboardPage;
   forgotPasswordPage: ForgotPasswordPage;
+  contractsPage: ContractsPage;
   envConfig: typeof EnvConfig;
   testData: typeof TestDataGenerator;
 };
@@ -52,6 +54,10 @@ export const test = base.extend<TestFixtures>({
 
   forgotPasswordPage: async ({ page }, use) => {
     await use(new ForgotPasswordPage(page));
+  },
+
+  contractsPage: async ({ page }, use) => {
+    await use(new ContractsPage(page));
   },
 
   envConfig: async ({}, use) => {
