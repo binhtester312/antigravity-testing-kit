@@ -1,0 +1,6 @@
+[2026-07-28T12:09:49.000Z] [INFO] [LoginPage] ▶ STEP: Navigate to Login page
+[2026-07-28T12:09:51.454Z] [INFO] [LoginPage] ▶ STEP: Login with Enter key: admin@example.com
+[2026-07-28T12:09:51.454Z] [INFO] [LoginPage] ▶ STEP: Enter email: admin@example.com
+[2026-07-28T12:09:51.575Z] [INFO] [LoginPage] ▶ STEP: Enter password: [MASKED]
+[2026-07-28T12:09:51.659Z] [INFO] [LoginPage] ▶ STEP: Press Enter on Email field
+[2026-07-28T12:09:52.268Z] [INFO] [DashboardPage] ▶ STEP: Verify Dashboard page loaded

@@ -1,0 +1,5 @@
+[2026-07-28T12:09:56.706Z] [INFO] [LoginPage] ▶ STEP: Navigate to Login page
+[2026-07-28T12:09:59.068Z] [INFO] [LoginPage] ▶ STEP: Click Forgot Password link
+[2026-07-28T12:09:59.465Z] [INFO] [ForgotPasswordPage] ▶ STEP: Submit Forgot Password for email: admin@example.com
+[2026-07-28T12:09:59.466Z] [INFO] [ForgotPasswordPage] ▶ STEP: Enter email in Forgot Password: admin@example.com
+[2026-07-28T12:09:59.534Z] [INFO] [ForgotPasswordPage] ▶ STEP: Click Confirm button
