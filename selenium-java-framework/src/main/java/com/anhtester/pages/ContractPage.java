@@ -44,7 +44,7 @@ public class ContractPage extends BasePage {
     @FindBy(id = "subject")
     private WebElement subjectInput;
 
-    @FindBy(id = "contract_value")
+    @FindBy(name = "contract_value")
     private WebElement contractValueInput;
 
     @FindBy(css = "button[data-id='contract_type']")
