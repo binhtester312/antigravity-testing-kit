@@ -1,0 +1,71 @@
+name: ☕ Selenium Java E2E Tests
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test Suite to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - DashboardTest
+          - ProjectTest
+          - CustomerTest
+          - ContractTest
+          - LoginTest
+
+jobs:
+  selenium-test:
+    name: 🧪 Selenium Java Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: selenium-java-framework
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Setup Chrome browser
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Run Selenium Tests
+        run: |
+          if [ "${{ github.event.inputs.test_suite }}" != "all" ] && [ -n "${{ github.event.inputs.test_suite }}" ]; then
+            mvn test -Dtest=${{ github.event.inputs.test_suite }} -Dheadless=true
+          else
+            mvn test -Dheadless=true
+          fi
+        continue-on-error: true
+
+      - name: Upload Test Screenshots (if any failures)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium-test-screenshots
+          path: selenium-java-framework/target/screenshots/
+          retention-days: 14
+
+      - name: Upload Allure Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-selenium
+          path: selenium-java-framework/target/allure-results/
+          retention-days: 30
