@@ -1,0 +1,23 @@
+﻿TC ID,Module,Risk Level,Test Scenario,Pre-Condition,Test Steps,Test Data,Expected Result,Priority
+CRM_CONTRACT_TC_001,Contracts,High Risk,Tạo mới hợp đồng thành công với đầy đủ thông tin hợp lệ,Đã đăng nhập Admin,"1. Vào Contracts -> New Contract
+2. Nhập Subject, Customer, Contract Value, Start Date, End Date
+3. Bấm Save","Subject: Contract Test 2026, Customer: Test Company, Value: 10000, Start: 01/08/2026",Hợp đồng được tạo thành công,High
+CRM_CONTRACT_TC_002,Contracts,High Risk,Xác thực trường bắt buộc khi để trống Subject,Đang ở màn hình New Contract,"1. Để trống Subject
+2. Chọn Customer, Start Date
+3. Bấm Save",Subject: [Để trống],Báo lỗi trường Subject là bắt buộc,High
+CRM_CONTRACT_TC_003,Contracts,High Risk,Xác thực trường bắt buộc khi để trống Customer,Đang ở màn hình New Contract,"1. Nhập Subject
+2. Không chọn Customer
+3. Bấm Save",Customer: [Chưa chọn],Báo lỗi trường Customer là bắt buộc,High
+CRM_CONTRACT_TC_004,Contracts,High Risk,Xác thực logic End Date nhỏ hơn Start Date,Đang ở màn hình New Contract,"1. Nhập Start Date: 10/08/2026
+2. Nhập End Date: 01/08/2026
+3. Bấm Save","Start: 10/08/2026, End: 01/08/2026",Hệ thống cảnh báo End Date phải sau Start Date,High
+CRM_CONTRACT_TC_005,Contracts,Medium Risk,Tìm kiếm hợp đồng theo mã hoặc tiêu đề trên Data Table,Đang ở danh sách Contracts,1. Gõ từ khóa 'Contract Test' vào ô Search,Search: Contract Test,Bảng dữ liệu lọc hiển thị đúng hợp đồng khớp từ khóa,Medium
+CRM_CONTRACT_TC_006,Contracts,High Risk,Chỉnh sửa thông tin hợp đồng thành công,Hợp đồng đã tồn tại,"1. Mở xem hợp đồng
+2. Bấm Edit
+3. Sửa Contract Value -> Bấm Save",New Value: 15000,Thông tin hợp đồng cập nhật giá trị mới,High
+CRM_CONTRACT_TC_007,Contracts,High Risk,Xóa hợp đồng khỏi hệ thống,Hợp đồng tồn tại,"1. Bấm Delete trên hợp đồng
+2. Xác nhận xóa",Thao tác Delete,Hợp đồng bị xóa khỏi danh sách,High
+CRM_CONTRACT_TC_008,Contracts,Medium Risk,Xuất file danh sách hợp đồng (Export PDF/Excel),Đang ở danh sách Contracts,1. Bấm nút Export -> Chọn Excel,Nút Export,Tải file danh sách hợp đồng về máy thành công,Medium
+CRM_CONTRACT_TC_009,Contracts,Low Risk,Lọc hợp đồng theo loại Contract Type,Đang ở danh sách Contracts,1. Chọn lọc theo loại hợp đồng,Filter: Service Contract,Bảng dữ liệu chỉ hiển thị các hợp đồng Service Contract,Low
+CRM_CONTRACT_TC_010,Contracts,High Risk,Tải lên file đính kèm đính kèm hợp đồng (Attachment),Đang ở chi tiết hợp đồng,"1. Chọn Upload Attachment
+2. Chọn file .pdf hợp lệ",File: hopdong_ky.pdf,File đính kèm hiển thị thành công trong danh sách đính kèm,High

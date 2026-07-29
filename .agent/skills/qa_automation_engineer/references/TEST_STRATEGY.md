@@ -18,10 +18,10 @@ File này định nghĩa chiến lược testing cho dự án. Agent tham khảo
 
 | Loại Test | Áp dụng | Tool/Framework |
 |-----------|---------|----------------|
-| UI Functional Testing | ✅ | Selenium / Playwright |
-| API Testing | ✅ | REST Assured / Postman |
-| Unit Testing | ✅ | JUnit / TestNG |
-| Integration Testing | ✅ | TestNG + REST Assured |
+| UI Functional Testing | ✅ | Selenium 4 (Java 17) |
+| API Testing | ⬜ | N/A (Dự án tập trung 100% UI Automation) |
+| Unit Testing | ⬜ | N/A (Phạm vi của phát triển/Dev) |
+| UI Integration Testing | ✅ | TestNG + Selenium (Cross-module E2E Flow) |
 | Performance Testing | ⬜ | JMeter / k6 |
 | Security Testing | ⬜ | OWASP ZAP |
 | Mobile Testing | ⬜ | Appium |
@@ -30,29 +30,29 @@ File này định nghĩa chiến lược testing cho dự án. Agent tham khảo
 
 ### Framework Architecture
 - **Design Pattern:** Page Object Model (POM)
-- **Language:** Java
+- **Language:** Java 17
 - **Test Runner:** TestNG
 - **Build Tool:** Maven
-- **Reporting:** Allure / ExtentReports
+- **Reporting:** Allure Report + Log4j 2
 
 ### Automation Scope
-- Smoke tests: Bao phủ happy path của các chức năng chính
+- Smoke tests: Bao phủ happy path của các chức năng chính (Login, Customer, Project, Contract)
 - Regression tests: Bao phủ tất cả test cases đã pass
-- Data-driven tests: Sử dụng external data sources (Excel, CSV, JSON)
+- Data-driven tests: Sử dụng external data sources (JSON, JavaFaker)
 
 ## Test Data Management
 
 - Sử dụng random data có prefix + timestamp để traceable
-- Tách biệt test data khỏi test logic
-- Không hard-code credentials trong code
+- Tách biệt test data khỏi test logic (Folder `test-data/` & `TestDataGenerator`)
+- Không hard-code credentials trong code (`config.properties` / `.env`)
 
 ## Execution Plan
 
 | Phase | Mô tả | Trigger |
 |-------|--------|---------|
-| Smoke Test | Happy path chính | Mỗi build |
-| Regression | Full suite | Trước release |
-| Integration | API + UI | Hàng ngày |
+| Smoke Test | Happy path chính các module | Mỗi build / PR |
+| Regression | Full suite các module UI | Trước release |
+| UI Integration | Luồng E2E nối tiếp nhiều module UI | Hàng ngày / Nightly |
 
 ## Test Environment
 

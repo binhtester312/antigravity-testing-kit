@@ -1,0 +1,103 @@
+﻿TC ID,Module,Risk Level,Test Scenario,Pre-Condition,Test Steps,Test Data,Expected Result,Priority
+CRM_DASHBOARD_TC_001,Dashboard Options,Medium Risk,Tắt hiển thị 1 Widget (Quick Statistics),Người dùng đã đăng nhập hệ thống CRM và đang ở trang Dashboard.,"1. Nhấn vào nút Dashboard Options ở góc trên bên phải màn hình.
+2. Bỏ tích chọn checkbox Quick Statistics.",Checkbox: Quick Statistics,"1. Vùng điều khiển Dashboard Options mở ra.
+2. Widget Quick Statistics bị ẩn ngay lập tức khỏi giao diện Dashboard.",Medium
+CRM_DASHBOARD_TC_002,Dashboard Options,Medium Risk,Bỏ tích chọn nhiều Widget cùng lúc,Người dùng đã đăng nhập hệ thống CRM và đang ở trang Dashboard.,"1. Nhấn nút Dashboard Options.
+2. Bỏ tích chọn các checkbox: Finance Overview, Calendar, My To Do Items.","Checkboxes: Finance Overview, Calendar, My To Do Items","Các Widget Finance Overview, Calendar và My To Do Items đồng loạt ẩn khỏi giao diện Dashboard.",Medium
+CRM_DASHBOARD_TC_003,Dashboard Options,Medium Risk,Tích chọn lại Widget đã bị ẩn,Widget Quick Statistics đang ở trạng thái bị ẩn.,"1. Nhấn nút Dashboard Options.
+2. Tích chọn lại checkbox Quick Statistics.",Checkbox: Quick Statistics,Widget Quick Statistics hiển thị trở lại trên giao diện Dashboard.,Medium
+CRM_DASHBOARD_TC_004,Dashboard Options,Medium Risk,Khôi phục giao diện mặc định bằng Reset Dashboard,Một số Widget đã bị người dùng ẩn bớt khỏi màn hình.,"1. Nhấn nút Dashboard Options.
+2. Nhấn nút Reset Dashboard.",Nút: Reset Dashboard,Hệ thống khôi phục toàn bộ các Widget về trạng thái hiển thị đầy đủ ban đầu.,High
+CRM_DASHBOARD_TC_005,Dashboard Options,Medium Risk,Xem vùng chứa Widget bằng View Widgetable Area,Người dùng đang mở khung Dashboard Options.,1. Nhấn nút View Widgetable Area.,Nút: View Widgetable Area,Các vùng đệm/khung chứa Widget hợp lệ được làm nổi bật trên giao diện.,Low
+CRM_DASHBOARD_TC_006,Dashboard Options,Medium Risk,Lưu giữ trạng thái ân/hiện Widget sau khi tải lại trang,Người dùng đã bỏ tích chọn Widget Latest Project Activity.,"1. Tải lại trang bằng phím F5 hoặc nút Reload trình duyệt.
+2. Kiểm tra giao diện Dashboard.",Thao tác: Reload trang (F5),Trạng thái ẩn của Widget Latest Project Activity vẫn được duy trì đúng theo tài khoản cá nhân.,High
+CRM_DASHBOARD_TC_007,Quick Statistics,Low Risk,Kiểm tra hiển thị số liệu chỉ số Invoices Awaiting Payment,Đã đăng nhập tài khoản Admin.,1. Quan sát thẻ Quick Statistics đầu tiên trên Dashboard.,Thẻ chỉ số: Invoices Awaiting Payment,Hiển thị chính xác tiêu đề Invoices Awaiting Payment và tỷ số hóa đơn (ví dụ: 3 / 5).,Medium
+CRM_DASHBOARD_TC_008,Quick Statistics,Low Risk,Điều hướng từ thẻ Invoices Awaiting Payment,Người dùng đang ở trang Dashboard.,1. Click trực tiếp vào thẻ chỉ số Invoices Awaiting Payment.,Con trỏ chuột click vào thẻ,Hệ thống chuyển hướng người dùng tới trang danh sách hóa đơn: /admin/invoices/list_invoices.,Medium
+CRM_DASHBOARD_TC_009,Quick Statistics,Low Risk,Điều hướng từ thẻ Projects In Progress,Người dùng đang ở trang Dashboard.,1. Click trực tiếp vào thẻ chỉ số Projects In Progress.,Con trỏ chuột click vào thẻ,Hệ thống điều hướng người dùng tới trang danh sách dự án: /admin/projects.,Medium
+CRM_DASHBOARD_TC_010,Quick Statistics,Low Risk,Điều hướng từ thẻ Tasks Not Finished,Người dùng đang ở trang Dashboard.,1. Click trực tiếp vào thẻ chỉ số Tasks Not Finished.,Con trỏ chuột click vào thẻ,Hệ thống điều hướng người dùng tới trang danh sách công việc: /admin/tasks/list_tasks.,Medium
+CRM_DASHBOARD_TC_011,Finance Overview,High Risk,Lọc dữ liệu tài chính theo năm 2026,"Đã đăng nhập hệ thống, Widget Finance Overview đang hiển thị.","1. Tại góc trên Finance Overview, nhấn chọn Select Dropdown năm.
+2. Chọn năm 2026.",Dropdown Year: 2026,"Các biểu đồ Hóa đơn, Báo giá, Đề xuất và tổng tiền tệ cập nhật số liệu theo năm 2026.",High
+CRM_DASHBOARD_TC_012,Finance Overview,High Risk,Thay đổi bộ lọc năm tài chính sang 2025,Đang hiển thị dữ liệu năm 2026.,1. Chọn lại Dropdown năm là 2025.,Dropdown Year: 2025,Dữ liệu được tải lại và hiển thị chính xác các chỉ số tài chính của năm 2025.,High
+CRM_DASHBOARD_TC_013,Finance Overview,High Risk,Kiểm tra hiển thị đầy đủ các trạng thái trong Invoice Overview,Đang ở trang Dashboard.,1. Quan sát vùng Invoice Overview.,Vùng Invoice Overview,"Hiển thị đủ 6 trạng thái: Draft, Not Sent, Unpaid, Partially Paid, Overdue, Paid kèm số lượng và tỷ lệ %.",High
+CRM_DASHBOARD_TC_014,Finance Overview,High Risk,Lọc danh sách hóa đơn theo trạng thái Unpaid từ Finance Overview,Đang hiển thị vùng Invoice Overview.,1. Click vào liên kết 3 Unpaid.,Link: 3 Unpaid,Hệ thống mở trang danh sách hóa đơn đã được tự động lọc theo status=1 (Unpaid).,High
+CRM_DASHBOARD_TC_015,Finance Overview,High Risk,Lọc danh sách hóa đơn theo trạng thái Not Sent,Đang hiển thị vùng Invoice Overview.,1. Click vào liên kết 4 Not Sent.,Link: 4 Not Sent,Hệ thống mở trang danh sách hóa đơn được lọc theo parameter filter=not_sent.,Medium
+CRM_DASHBOARD_TC_016,Finance Overview,High Risk,Kiểm tra hiển thị các trạng thái trong Estimate Overview,Đang ở trang Dashboard.,1. Quan sát vùng Estimate Overview.,Vùng Estimate Overview,"Hiển thị đủ 6 trạng thái: Draft, Not Sent, Sent, Expired, Declined, Accepted.",High
+CRM_DASHBOARD_TC_017,Finance Overview,High Risk,Lọc danh sách báo giá theo trạng thái Expired,Đang ở vùng Estimate Overview.,1. Click vào liên kết 3 Expired.,Link: 3 Expired,Hệ thống mở trang danh sách báo giá đã được lọc theo status=5 (Expired).,Medium
+CRM_DASHBOARD_TC_018,Finance Overview,High Risk,Kiểm tra hiển thị phân đoạn Proposal Overview,Đang ở trang Dashboard.,1. Quan sát vùng Proposal Overview.,Vùng Proposal Overview,"Hiển thị đủ 6 trạng thái: Draft, Sent, Open, Revised, Declined, Accepted.",Medium
+CRM_DASHBOARD_TC_019,Finance Overview,High Risk,Kiểm tra hiển thị các thẻ tổng tiền tệ tài chính,Đang ở trang Dashboard.,1. Quan sát phần chân của Widget Finance Overview.,Vùng tiền tệ,"Hiển thị chính xác 3 mức tiền tệ: Outstanding Invoices, Past Due Invoices, Paid Invoices.",High
+CRM_DASHBOARD_TC_020,Finance Overview,High Risk,Kiểm tra hiển thị khi năm được chọn không có dữ liệu tài chính,Chọn một năm không có phát sinh giao dịch (ví dụ năm 2024).,1. Chọn năm 2024 từ Dropdown.,Dropdown Year: 2024,"Các trạng thái hiển thị giá trị 0 (0 Draft, 0.00%) và các mức tiền tệ hiển thị $0.00.",Medium
+CRM_DASHBOARD_TC_021,User Widget,High Risk,Chuyển đổi qua lại giữa các tab trong User Widget,Widget User Widget đang hiển thị trên Dashboard.,"1. Lần lượt click vào các tab: My Tasks, My Projects, My Reminders, Tickets, Announcements.",Các Tab header,Nội dung danh sách tương ứng với từng tab được tải và hiển thị chính xác.,High
+CRM_DASHBOARD_TC_022,User Widget,High Risk,Thay đổi số dòng hiển thị trên bảng My Tasks bằng Length Menu,Đang mở tab My Tasks.,"1. Chọn giá trị 10 từ dropdown số lượng dòng.
+2. Thay đổi sang 25, 50, 100, All.","Length Dropdown: 10, 25, 50, 100, All",Bảng My Tasks điều chỉnh số lượng bản ghi hiển thị chính xác theo lựa chọn.,Medium
+CRM_DASHBOARD_TC_023,User Widget,High Risk,Nhảy trang trực tiếp trên bảng My Tasks qua Page Jump,Tab My Tasks có nhiều hơn 10 bản ghi (nhiều trang).,"1. Tại dropdown Page Jump, chọn số trang 2.",Page Jump Dropdown: 2,Dữ liệu trang 2 của danh sách My Tasks được hiển thị lên bảng.,Medium
+CRM_DASHBOARD_TC_024,User Widget,High Risk,Bắt đầu bộ đếm thời gian công việc bằng nút Start Timer,"Đang ở tab My Tasks, chọn công việc chưa chạy bộ đếm.","1. Hover chuột vào dòng công việc #1787.
+2. Click nút Start Timer.",Nút: Start Timer (Task ID: 1787),"Bộ đếm thời gian bắt đầu chạy, nút Start Timer chuyển thành Stop Timer.",High
+CRM_DASHBOARD_TC_025,User Widget,High Risk,Dừng bộ đếm thời gian công việc bằng nút Stop Timer,Bộ đếm thời gian cho công việc #1787 đang chạy.,1. Click nút Stop Timer trên dòng công việc #1787.,Nút: Stop Timer,"Bộ đếm dừng lại, thời gian thực hiện được ghi nhận vào hệ thống.",High
+CRM_DASHBOARD_TC_026,User Widget,High Risk,Mở màn hình chỉnh sửa công việc từ tab My Tasks,Đang ở tab My Tasks.,"1. Hover chuột vào công việc #1787.
+2. Click nút Edit.",Nút: Edit (Task ID: 1787),Hệ thống mở modal/màn hình chi tiết công việc #1787 để người dùng chỉnh sửa.,High
+CRM_DASHBOARD_TC_027,User Widget,High Risk,Xóa công việc khỏi tab My Tasks bằng nút Delete,Công việc #1648 tồn tại trong danh sách My Tasks.,"1. Hover chuột vào công việc #1648.
+2. Click nút Delete.
+3. Nhấn xác nhận trên dialog.",Nút: Delete (Task ID: 1648),Công việc bị xóa thành công và biến mất khỏi danh sách My Tasks.,High
+CRM_DASHBOARD_TC_028,User Widget,High Risk,Xuất danh sách công việc cá nhân bằng nút Export,Đang ở tab My Tasks.,1. Click nút Export phía trên bảng dữ liệu.,Nút: Export,Menu xuất file mở ra cho phép tải file dữ liệu danh sách công việc về máy tính.,Medium
+CRM_DASHBOARD_TC_029,User Widget,High Risk,Xem tất cả công việc bằng liên kết View All,Đang ở tab My Tasks.,1. Click liên kết View All.,Link: View All,Hệ thống điều hướng sang trang danh sách công việc đầy đủ: /admin/tasks/list_tasks.,Medium
+CRM_DASHBOARD_TC_030,User Widget,High Risk,Kiểm tra hiển thị khi danh sách My Tasks không có dữ liệu,Tài khoản người dùng mới tạo chưa được giao công việc nào.,1. Đăng nhập và truy cập tab My Tasks.,Tài khoản không có task,Bảng hiển thị thông báo rỗng: No entries found.,Low
+CRM_DASHBOARD_TC_031,Calendar & Add Event,High Risk,Thay đổi các chế độ xem lịch biểu Calendar,Widget Calendar đang hiển thị trên Dashboard.,"1. Lần lượt click các nút: Month, Week, Day, Today, Expand.",Nút điều hướng lịch,Lịch chuyển đổi hiển thị chính xác theo từng bố cục đã chọn.,Medium
+CRM_DASHBOARD_TC_032,Calendar & Add Event,High Risk,Mở modal tạo mới sự kiện Add new event,Đang xem giao diện Calendar.,1. Click trực tiếp vào một ngày bất kỳ trên ô lịch.,Click ngày 30-07-2026,Modal Add new event hiển thị với tiêu đề Add new event và các trường nhập liệu.,High
+CRM_DASHBOARD_TC_033,Calendar & Add Event,High Risk,Tạo sự kiện hợp lệ trên Calendar,Modal Add new event đang mở.,"1. Nhập Event title: Họp kế hoạch QA CRM 2026.
+2. Nhập Description: Thảo luận kịch bản test.
+3. Chọn Start Date: 30-07-2026 09:00.
+4. Chọn End Date: 30-07-2026 11:00.
+5. Nhập Notification: 30, chọn Unit: Minutes.
+6. Tích chọn Public Event.
+7. Nhấn nút Save.","Title: Họp kế hoạch QA CRM 2026, Start: 30-07-2026 09:00","Sự kiện được lưu thành công, modal đóng lại và sự kiện hiển thị trên lịch ngày 30-07-2026.",High
+CRM_DASHBOARD_TC_034,Calendar & Add Event,High Risk,Xác thực trường bắt buộc Event Title trong modal tạo sự kiện,Modal Add new event đang mở.,"1. Để trống trường Event title.
+2. Chọn Start Date: 30-07-2026 09:00.
+3. Nhấn nút Save.",Event title: [Để trống],Hệ thống hiển thị thông báo lỗi 'This field is required.' bên dưới trường Event title và ngăn lưu dữ liệu.,High
+CRM_DASHBOARD_TC_035,Calendar & Add Event,High Risk,Xác thực trường bắt buộc Start Date trong modal tạo sự kiện,Modal Add new event đang mở.,"1. Nhập Event title: Họp Demo.
+2. Xóa sạch dữ liệu trường Start Date.
+3. Nhấn nút Save.",Start Date: [Để trống],Hệ thống hiển thị thông báo lỗi 'This field is required.' bên dưới trường Start Date và không cho lưu.,High
+CRM_DASHBOARD_TC_036,Calendar & Add Event,High Risk,Kiểm tra giá trị biên cho trường Notification (Nhập số âm/0),Modal Add new event đang mở.,"1. Nhập tiêu đề và ngày bắt đầu hợp lệ.
+2. Nhập số -5 vào trường Notification.
+3. Nhấn Save.",Notification: -5,Hệ thống từ chối giá trị âm và báo lỗi yêu cầu nhập số nguyên dương.,Medium
+CRM_DASHBOARD_TC_037,Calendar & Add Event,High Risk,Kiểm tra nhập chuỗi Event Title siêu dài (500 ký tự),Modal Add new event đang mở.,"1. Nhập 500 ký tự văn bản vào Event title.
+2. Nhập ngày bắt đầu hợp lệ và bấm Save.",Title: Chuỗi 500 ký tự 'A',Hệ thống xử lý lưu thành công hoặc giới hạn độ dài hiển thị an toàn trên ô lịch.,Low
+CRM_DASHBOARD_TC_038,Calendar & Add Event,High Risk,Kiểm tra an toàn bảo mật XSS Injection trên trường Event Title,Modal Add new event đang mở.,"1. Nhập Event title: <script>alert('XSS_TEST')</script>.
+2. Nhập ngày bắt đầu hợp lệ và bấm Save.",Title: <script>alert('XSS_TEST')</script>,"Dữ liệu được mã hóa dạng văn bản thuần khi hiển thị trên lịch, script không bị thực thi.",High
+CRM_DASHBOARD_TC_039,Calendar & Add Event,High Risk,Kiểm tra logic End Date nhỏ hơn Start Date,Modal Add new event đang mở.,"1. Nhập Title: Test Logic Date.
+2. Chọn Start Date: 30-07-2026 10:00.
+3. Chọn End Date: 29-07-2026 10:00.
+4. Nhấn Save.","Start: 30-07-2026, End: 29-07-2026",Hệ thống hiển thị cảnh báo ngày kết thúc không được nhỏ hơn ngày bắt đầu.,Medium
+CRM_DASHBOARD_TC_040,Calendar & Add Event,High Risk,Lọc danh sách sự kiện hiển thị trên lịch qua nút Filter By,Trên lịch đang có nhiều sự kiện thuộc các loại khác nhau.,"1. Nhấn nút Filter By trên góc phải Calendar.
+2. Chỉ chọn phân loại Events.",Filter By: Events,"Lịch cập nhật chỉ hiển thị các sự kiện loại Events, ẩn các sự kiện loại khác.",Medium
+CRM_DASHBOARD_TC_041,My To Do Items,Medium Risk,Mở modal Add New Todo từ Widget My To Do Items,Widget My To Do Items đang hiển thị trên Dashboard.,1. Click nút New To Do.,Nút: New To Do,Modal Add New Todo mở ra với ô nhập văn bản Description.,Medium
+CRM_DASHBOARD_TC_042,My To Do Items,Medium Risk,Tạo mới To-Do item với nội dung hợp lệ,Modal Add New Todo đang mở.,"1. Nhập Description: Kiểm thử hồi nhập module Dashboard CRM 2026.
+2. Nhấn nút Save.",Description: Kiểm thử hồi nhập module Dashboard CRM 2026,To-Do item mới được tạo và hiển thị trong danh mục Latest to do's.,High
+CRM_DASHBOARD_TC_043,My To Do Items,Medium Risk,Tạo mới To-Do item với ô Description để trống,Modal Add New Todo đang mở.,"1. Để trống ô Description.
+2. Nhấn nút Save.",Description: [Để trống],Hệ thống ngăn tạo To-Do rỗng và yêu cầu người dùng nhập nội dung công việc.,Medium
+CRM_DASHBOARD_TC_044,My To Do Items,Medium Risk,Đánh dấu hoàn thành một To-Do item,To-Do item 'Kiểm thử hồi nhập module Dashboard' đang ở danh mục Latest to do's.,1. Tích chọn checkbox ở đầu To-Do item.,Checkbox hoàn thành To-Do,Item tự động chuyển sang danh sách Latest finished to do's.,High
+CRM_DASHBOARD_TC_045,My To Do Items,Medium Risk,Chỉnh sửa nội dung một To-Do item,Đang ở danh sách To-Do items.,"1. Click icon Edit trên To-Do item.
+2. Sửa nội dung thành: 'Đã cập nhật kịch bản test Dashboard'.
+3. Nhấn Save.",Description mới: Đã cập nhật kịch bản test Dashboard,Nội dung To-Do item được cập nhật mới trên giao diện.,Medium
+CRM_DASHBOARD_TC_046,My To Do Items,Medium Risk,Xóa một To-Do item khỏi danh sách,Tồn tại To-Do item trong danh sách.,"1. Click icon Delete trên To-Do item.
+2. Xác nhận xóa.",Icon Delete,To-Do item bị xóa hoàn toàn khỏi danh sách.,Medium
+CRM_DASHBOARD_TC_047,Payment Records & Contracts,Low Risk,Kiểm tra hiển thị biểu đồ Payment Records theo chế độ Weekly,Widget Payment Records hiển thị trên Dashboard.,1. Quan sát biểu đồ doanh thu thanh toán.,Biểu đồ Payment Records,Hiển thị đúng dạng biểu đồ thanh toán theo tuần (Weekly).,Low
+CRM_DASHBOARD_TC_048,Payment Records & Contracts,Low Risk,Mở báo cáo đầy đủ thanh toán qua nút Full Report,Widget Payment Records hiển thị trên Dashboard.,1. Click nút Full Report.,Nút: Full Report,Hệ thống điều hướng sang trang báo cáo doanh thu tài chính đầy đủ: /admin/reports/sales.,Medium
+CRM_DASHBOARD_TC_049,Payment Records & Contracts,Low Risk,Kiểm tra hiển thị khi không có hợp đồng sắp hết hạn,Trong hệ thống không có hợp đồng nào hết hạn trong 7 ngày tới.,1. Quan sát Widget Contracts Expiring Soon.,Widget Contracts Expiring Soon,Hiển thị thông báo trống: 'There are no contracts that are going to expire in the next 7 days.',Low
+CRM_DASHBOARD_TC_050,Charts Overview,Low Risk,Kiểm tra hiển thị biểu đồ tròn Leads Overview,Widget Leads Overview hiển thị trên Dashboard.,1. Quan sát phân bổ tỷ lệ khách hàng tiềm năng.,Biểu đồ Leads Overview,"Hiển thị trực quan tỷ lệ phần trăm Leads theo các trạng thái (Draft, Contacted, Qualified, Converted...).",Low
+CRM_DASHBOARD_TC_051,Charts Overview,Low Risk,Kiểm tra hiển thị biểu đồ Statistics by Project Status,Widget Statistics by Project Status hiển thị trên Dashboard.,1. Quan sát biểu đồ thống kê trạng thái dự án.,Biểu đồ Project Status,"Hiển thị đúng số lượng dự án phân bổ theo các trạng thái: Not Started, In Progress, On Hold, Cancelled, Finished.",Low
+CRM_DASHBOARD_TC_052,Charts Overview,Low Risk,Điều hướng từ biểu đồ thống kê dự án,Đang ở Widget Statistics by Project Status.,1. Click vào phần trạng thái In Progress trên biểu đồ.,Click phầnh In Progress,Hệ thống mở trang danh sách dự án với bộ lọc dự án đang thực hiện.,Low
+CRM_DASHBOARD_TC_053,Latest Project Activity,Low Risk,Kiểm tra danh sách nhật ký hoạt động dự án gần đây,Widget Latest Project Activity hiển thị trên Dashboard.,1. Quan sát dòng thời gian hoạt động.,Dòng nhật ký hoạt động,"Hiển thị chính xác thời gian tương đối (ví dụ: 3 HRS AGO), tên nhân viên, hành động và tên dự án.",Low
+CRM_DASHBOARD_TC_054,Latest Project Activity,Low Risk,Mở trang dự án từ liên kết trong dòng nhật ký hoạt động,Đang xem danh sách nhật ký hoạt động.,1. Click vào tên dự án 'Project_Auto_Company_1785294095'.,Link: Project_Auto_Company_1785294095,Hệ thống chuyển hướng tới trang quản lý chi tiết của dự án tương ứng.,Medium
+CRM_DASHBOARD_TC_055,Latest Project Activity,Low Risk,Cập nhật nhật ký hoạt động khi có hành động mới trên dự án,Thực hiện tạo dự án mới ở một tab trình duyệt khác.,1. Quay lại trang Dashboard và làm mới trang.,Reload Dashboard,Dòng nhật ký mới ghi nhận hành động tạo dự án vừa thực hiện xuất hiện lên đầu danh sách.,Low
+CRM_DASHBOARD_TC_056,Header Toolbar & Security,High Risk,Tìm kiếm nhanh đối tượng qua thanh #search_input,Đang ở giao diện bất kỳ trên CRM.,1. Nhập từ khóa 'Project_Auto' vào ô Search... trên Header.,Search text: Project_Auto,Hệ thống hiển thị kết quả gợi ý tìm kiếm nhanh danh sách các dự án khớp với từ khóa.,High
+CRM_DASHBOARD_TC_057,Header Toolbar & Security,High Risk,Tạo nhanh công việc Task từ nút Quick Action (+),Đang ở trang Dashboard.,"1. Click icon Quick Action (+).
+2. Chọn mục Task.",Quick Action -> Task,Màn hình/modal tạo mới công việc Task được mở ra ngay lập tức.,High
+CRM_DASHBOARD_TC_058,Header Toolbar & Security,High Risk,Tạo nhanh hóa đơn Invoice từ nút Quick Action (+),Đang ở trang Dashboard.,"1. Click icon Quick Action (+).
+2. Chọn mục Invoice.",Quick Action -> Invoice,Hệ thống mở giao diện tạo mới hóa đơn Invoice.,High
+CRM_DASHBOARD_TC_059,Header Toolbar & Security,High Risk,Xem danh sách bộ đếm thời gian đang chạy từ icon Top Timers,Có công việc đang chạy bộ đếm thời gian.,1. Click icon Top Timers trên Header.,Icon Top Timers,Dropdown hiển thị danh sách các công việc đang chạy bộ đếm thời gian kèm nút dừng nhanh.,Medium
+CRM_DASHBOARD_TC_060,Header Toolbar & Security,High Risk,Mở trang cá nhân từ Menu tài khoản,Đang ở trang Dashboard.,"1. Click Avatar/Tên người dùng trên Header.
+2. Chọn My Profile.",Menu Profile -> My Profile,Hệ thống điều hướng sang trang hồ sơ cá nhân /admin/staff/profile.,Medium
+CRM_DASHBOARD_TC_061,Header Toolbar & Security,High Risk,Thực hiện đăng xuất hệ thống từ Menu tài khoản,Đang ở trang Dashboard.,"1. Click Menu tài khoản trên Header.
+2. Chọn Logout.",Menu Profile -> Logout,"Phiên làm việc kết thúc, hệ thống điều hướng người dùng về trang Đăng nhập /admin/authentication.",High
+CRM_DASHBOARD_TC_062,Header Toolbar & Security,High Risk,Kiểm tra bảo mật ngăn chặn truy cập Dashboard khi chưa đăng nhập,Chưa thực hiện đăng nhập tài khoản CRM.,1. Nhập trực tiếp URL https://crm.anhtester.com/admin/ vào trình duyệt.,URL: /admin/,Hệ thống chặn truy cập và tự động chuyển hướng người dùng về trang Đăng nhập.,High
+CRM_DASHBOARD_TC_063,Header Toolbar & Security,High Risk,Kiểm tra bảo mật CSRF Token trên các form thao tác Dashboard,Đang mở modal Add new event hoặc Add New Todo.,1. Kiểm tra mã nguồn HTML của Form.,Form hidden input: csrf_token_name,Form chứa mã csrf_token_name hợp lệ để ngăn chặn các cuộc tấn công giả mạo yêu cầu CSRF.,High

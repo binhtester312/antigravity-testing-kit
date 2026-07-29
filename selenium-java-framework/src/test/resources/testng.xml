@@ -28,4 +28,31 @@
         </classes>
     </test>
 
+    <!-- ============================================
+         SUITE 3: Module Projects (Management)
+    ============================================ -->
+    <test name="[MODULE 3] Projects Management Tests" preserve-order="true">
+        <classes>
+            <class name="com.anhtester.tests.project.ProjectTest"/>
+        </classes>
+    </test>
+
+    <!-- ============================================
+         SUITE 4: Module Contracts (Management)
+    ============================================ -->
+    <test name="[MODULE 4] Contracts Management Tests" preserve-order="true">
+        <classes>
+            <class name="com.anhtester.tests.contract.ContractTest"/>
+        </classes>
+    </test>
+
+    <!-- ============================================
+         SUITE 5: Module Dashboard (Overview & Widgets)
+    ============================================ -->
+    <test name="[MODULE 5] Dashboard Management Tests" preserve-order="true">
+        <classes>
+            <class name="com.anhtester.tests.dashboard.DashboardTest"/>
+        </classes>
+    </test>
+
 </suite>

@@ -1,0 +1,26 @@
+﻿TC ID,Module,Risk Level,Test Scenario,Pre-Condition,Test Steps,Test Data,Expected Result,Priority
+CRM_PROJECT_TC_001,Projects,High Risk,Tạo mới dự án thành công với Billing Type = Fixed Rate,Đã đăng nhập Admin,"1. Vào Projects -> New Project
+2. Nhập Project Name, Customer, Select Billing Type = Fixed Rate
+3. Nhập Total Rate
+4. Chọn Start Date
+5. Bấm Save","Project Name: Auto_Project_01, Customer: Test Client, Rate: 5000",Dự án tạo thành công và xuất hiện trong danh sách,High
+CRM_PROJECT_TC_002,Projects,High Risk,Tạo mới dự án thành công với Billing Type = Project Hours,Đang ở màn hình New Project,"1. Nhập Project Name, Customer
+2. Chọn Billing Type = Project Hours
+3. Nhập Rate Per Hour
+4. Bấm Save","Billing Type: Project Hours, Rate: 50",Dự án lưu thành công với tính phí theo giờ,High
+CRM_PROJECT_TC_003,Projects,High Risk,Xác thực trường bắt buộc khi để trống Project Name,Đang ở màn hình New Project,"1. Để trống Project Name
+2. Chọn Customer, Billing Type
+3. Bấm Save",Project Name: [Để trống],Báo lỗi trường Project Name là bắt buộc,High
+CRM_PROJECT_TC_004,Projects,High Risk,Xác thực trường bắt buộc khi không chọn Customer,Đang ở màn hình New Project,"1. Nhập Project Name
+2. Không chọn Customer
+3. Bấm Save",Customer: [Chưa chọn],Báo lỗi trường Customer là bắt buộc,High
+CRM_PROJECT_TC_005,Projects,Medium Risk,"Lọc danh sách dự án theo trạng thái (Not Started, In Progress, Finished...)",Đang ở màn hình Projects List,1. Click thẻ chỉ số In Progress trên đầu bảng,Thẻ: In Progress,Bảng tự động lọc hiển thị các dự án đang thực hiện,Medium
+CRM_PROJECT_TC_006,Projects,Medium Risk,Tìm kiếm dự án theo tên trên Data Table,Đang ở màn hình Projects List,1. Nhập từ khóa tên dự án vào ô Search,Search: Auto_Project_01,Bảng hiển thị đúng dự án tìm kiếm,Medium
+CRM_PROJECT_TC_007,Projects,High Risk,Phân công thành viên (Members) vào dự án,Đang ở chỉnh sửa/tạo mới dự án,"1. Chọn danh sách thành viên trong mục Members
+2. Bấm Save","Members: Admin Example, Staff 01",Các thành viên được gán vào dự án thành công,High
+CRM_PROJECT_TC_008,Projects,High Risk,Sao chép dự án bằng chức năng Copy Project,Dự án gốc đã tồn tại,"1. Hover vào dòng dự án -> Chọn Copy Project
+2. Nhập tên dự án mới -> Bấm Copy",New Name: Auto_Project_01_Copy,Dự án mới được nhân bản thành công với các cài đặt tương tự,High
+CRM_PROJECT_TC_009,Projects,High Risk,Xóa dự án khỏi hệ thống,Dự án tồn tại,"1. Click Delete dự án
+2. Xác nhận xóa",Nút: Delete,Dự án bị xóa khỏi danh sách,High
+CRM_PROJECT_TC_010,Projects,Low Risk,Thay đổi cấu hình quyền truy cập của khách hàng trong Project Settings,Đang ở tab Project Settings,"1. Tích chọn các quyền Allow customer to view tasks, Allow customer to open tickets
+2. Bấm Save",Checkboxes: Customer permissions,Cấu hình quyền hạn của khách hàng trên dự án được lưu thành công,Low

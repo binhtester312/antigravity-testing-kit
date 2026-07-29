@@ -79,7 +79,12 @@ public class LoginPage extends BasePage {
     @Step("Click nút Login")
     public void clickLoginButton() {
         log.info("Click Login button");
-        click(loginButton);
+        try {
+            click(loginButton);
+        } catch (Exception e) {
+            log.warn("Click loginButton bị chặn, dùng jsClick fallback");
+            jsClick(loginButton);
+        }
     }
 
     @Step("Click link 'Forgot Password?'")
