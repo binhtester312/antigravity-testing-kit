@@ -357,4 +357,19 @@ public class DashboardPage extends BasePage {
         openUrl("https://crm.anhtester.com/admin/projects");
         return new ProjectPage();
     }
+
+    public com.anhtester.pages.sales.ProposalPage openProposalsPage() {
+        openUrl("https://crm.anhtester.com/admin/proposals");
+        return new com.anhtester.pages.sales.ProposalPage();
+    }
+
+    public com.anhtester.pages.sales.EstimatePage openEstimatesPage() {
+        openUrl("https://crm.anhtester.com/admin/estimates");
+        return new com.anhtester.pages.sales.EstimatePage();
+    }
+
+    public com.anhtester.pages.sales.InvoicePage openInvoicesPage() {
+        openUrl("https://crm.anhtester.com/admin/invoices");
+        return new com.anhtester.pages.sales.InvoicePage();
+    }
 }

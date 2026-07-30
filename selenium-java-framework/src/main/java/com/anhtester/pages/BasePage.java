@@ -103,8 +103,25 @@ public abstract class BasePage {
 
     @Step("Chọn dropdown theo text: [{text}]")
     protected void selectByVisibleText(WebElement element, String text) {
-        WaitHelper.waitForVisible(element);
-        new Select(element).selectByVisibleText(text);
+        try {
+            if (isDisplayed(element)) {
+                new Select(element).selectByVisibleText(text);
+                return;
+            }
+        } catch (Exception ignored) {}
+
+        try {
+            executeScript(
+                "var $sel = $(arguments[0]);" +
+                "var val = $sel.find('option').filter(function() { return $(this).text().trim() === arguments[1] || $(this).val() === arguments[1]; }).val();" +
+                "if(val !== undefined) { $sel.val(val).trigger('change'); }" +
+                "if($.fn.selectpicker) { $sel.selectpicker('refresh'); }",
+                element, text
+            );
+        } catch (Exception e) {
+            log.warn("selectByVisibleText JS fallback error: " + e.getMessage());
+            new Select(element).selectByVisibleText(text);
+        }
     }
 
     // ================================================================
